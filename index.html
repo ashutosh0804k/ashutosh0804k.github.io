@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ashutosh Khatavkar | Player Profile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FFD700;
+            --secondary: #00D9FF;
+            --accent: #FF4655;
+            --dark: #0A0E1A;
+            --darker: #050810;
+            --success: #00FF88;
+            --purple: #8B5CF6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--darker);
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        .game-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .game-bg::before,
+        .game-bg::after {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, var(--primary) 2px, var(--primary) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, var(--primary) 2px, var(--primary) 4px);
+            background-size: 50px 50px;
+            animation: grid-move 20s linear infinite;
+        }
+
+        .game-bg::after {
+            animation-duration: 30s;
+            opacity: 0.5;
+        }
+
+        @keyframes grid-move {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* HUD-style Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: linear-gradient(180deg, rgba(10, 14, 26, 0.95) 0%, rgba(10, 14, 26, 0.8) 100%);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--primary);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3), 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        nav .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .player-tag {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .level-badge {
+            background: linear-gradient(135deg, var(--primary), #FFA500);
+            color: var(--darker);
+            padding: 0.5rem 1rem;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+
+        .player-name {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1rem;
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.5rem 1rem;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a:hover {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        /* XP Bar */
+        .xp-bar {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 999;
+            overflow: hidden;
+        }
+
+        .xp-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), var(--secondary), var(--purple));
+            width: 0%;
+            animation: xp-load 2s ease-out forwards;
+            box-shadow: 0 0 20px var(--success);
+        }
+
+        @keyframes xp-load {
+            to { width: 85%; }
+        }
+
+        /* Hero Section - Game Start Screen */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 8rem 2rem 2rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .game-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: var(--secondary);
+            margin-bottom: 2rem;
+            text-shadow: 0 0 20px var(--secondary);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(2rem, 6vw, 4rem);
+            line-height: 1.4;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 3s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(0, 217, 255, 0.1));
+            border: 2px solid var(--primary);
+            padding: 1rem 2rem;
+            clip-path: polygon(0 0, 95% 0, 100% 100%, 5% 100%);
+            position: relative;
+        }
+
+        .stat-box::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--primary), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .stat-box:hover::before {
+            opacity: 0.2;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 2rem 0;
+            color: #aaa;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .game-btn {
+            padding: 1.2rem 3rem;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: 3px solid var(--primary);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), transparent);
+            color: var(--primary);
+            cursor: pointer;
+            clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .game-btn:hover::before {
+            left: 100%;
+        }
+
+        .game-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px var(--primary), 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-color: var(--secondary);
+            color: var(--secondary);
+        }
+
+        .game-btn-secondary {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: linear-gradient(135deg, rgba(255, 70, 85, 0.2), transparent);
+        }
+
+        .game-btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            box-shadow: 0 0 30px var(--accent), 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Section Headers */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+        }
+
+        .section-level {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px var(--primary);
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #888;
+        }
+
+        /* Achievement Cards */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .achievement-card {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), rgba(0, 217, 255, 0.05));
+            border: 2px solid var(--primary);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 90% 100%, 0 100%);
+        }
+
+        .achievement-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, var(--primary), transparent);
+            animation: rotate 4s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .achievement-card:hover::before {
+            opacity: 0.1;
+        }
+
+        @keyframes rotate {
+            to { transform: rotate(360deg); }
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 30px var(--primary), 0 20px 40px rgba(0, 0, 0, 0.5);
+            border-color: var(--secondary);
+        }
+
+        .achievement-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .achievement-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .achievement-subtitle {
+            font-size: 1rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .achievement-date {
+            font-size: 0.85rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border: 1px solid #666;
+        }
+
+        .achievement-description {
+            color: #aaa;
+            line-height: 1.8;
+            margin: 1rem 0;
+        }
+
+        .achievement-description ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .achievement-description li {
+            margin: 0.8rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .achievement-description li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .skill-tag {
+            padding: 0.4rem 1rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Quest Cards (Projects) */
+        .quest-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .quest-card {
+            background: rgba(10, 14, 26, 0.8);
+            border: 3px solid var(--accent);
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .quest-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 70, 85, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .quest-card:hover::before {
+            left: 100%;
+        }
+
+        .quest-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 30px var(--accent), 0 20px 50px rgba(0, 0, 0, 0.5);
+            border-color: var(--primary);
+        }
+
+        .quest-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(255, 70, 85, 0.3), rgba(139, 92, 246, 0.3));
+            border-bottom: 2px solid var(--accent);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .quest-difficulty {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--primary);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .quest-content {
+            padding: 2rem;
+        }
+
+        .quest-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .quest-description {
+            color: #aaa;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .quest-rewards {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .reward-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .reward-icon {
+            font-size: 1.3rem;
+        }
+
+        /* Inventory (Skills) */
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .inventory-slot {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(0, 217, 255, 0.1));
+            border: 2px solid var(--purple);
+            padding: 2rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .inventory-slot:hover {
+            border-color: var(--secondary);
+            box-shadow: 0 0 20px var(--secondary);
+            transform: scale(1.05);
+        }
+
+        .inventory-category {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--purple);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .inventory-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .inventory-item {
+            padding: 0.5rem 1rem;
+            background: rgba(139, 92, 246, 0.2);
+            border: 1px solid var(--purple);
+            color: #fff;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .inventory-item:hover {
+            background: var(--purple);
+            transform: scale(1.1);
+        }
+
+        /* Boss Fight (Contact) */
+        .boss-arena {
+            background: linear-gradient(135deg, rgba(255, 70, 85, 0.1), rgba(255, 215, 0, 0.1));
+            border: 3px solid var(--accent);
+            padding: 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 50px var(--accent);
+        }
+
+        .boss-arena::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 70, 85, 0.2) 0%, transparent 70%);
+            animation: pulse-boss 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-boss {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        .boss-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            color: var(--accent);
+            margin-bottom: 2rem;
+            text-shadow: 0 0 20px var(--accent);
+            position: relative;
+            z-index: 1;
+        }
+
+        .boss-subtitle {
+            font-size: 1.2rem;
+            color: #aaa;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .boss-email {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 2rem 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .boss-email a {
+            color: var(--primary);
+            text-decoration: none;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 0.5rem;
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        .boss-email a:hover {
+            color: var(--secondary);
+            border-color: var(--secondary);
+        }
+
+        .boss-actions {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .boss-link {
+            padding: 1.2rem 2.5rem;
+            border: 3px solid var(--success);
+            color: var(--success);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
+            transition: all 0.3s ease;
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        .boss-link:hover {
+            background: var(--success);
+            color: var(--darker);
+            box-shadow: 0 0 30px var(--success);
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem;
+            border-top: 2px solid var(--primary);
+            color: #666;
+        }
+
+        footer p {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+            }
+
+            .quest-grid,
+            .inventory-grid,
+            .achievements-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .boss-arena {
+                padding: 2rem;
+            }
+        }
+
+        /* Loading screen effect */
+        .page-load {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--darker);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeOut 1s ease 1.5s forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                pointer-events: none;
+            }
+        }
+
+        .loading-text {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.5rem;
+            color: var(--primary);
+            text-shadow: 0 0 20px var(--primary);
+            animation: pulse 1s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="page-load">
+        <div class="loading-text">LOADING...</div>
+    </div>
+
+    <!-- Animated Background -->
+    <div class="game-bg"></div>
+
+    <!-- HUD Navigation -->
+    <nav>
+        <div class="container">
+            <div class="player-tag">
+                <div class="level-badge">LVL 25</div>
+                <div class="player-name">PLAYER_AK</div>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#about">Profile</a></li>
+                <li><a href="#experience">Achievements</a></li>
+                <li><a href="#projects">Quests</a></li>
+                <li><a href="#skills">Inventory</a></li>
+                <li><a href="#contact">Connect</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- XP Bar -->
+    <div class="xp-bar">
+        <div class="xp-fill"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="game-title">▶ NEW GAME STARTED</div>
+            <h1>ASHUTOSH<br>KHATAVKAR</h1>
+            
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <div class="stat-label">Experience</div>
+                    <div class="stat-value">1.5+ YRS</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Test Coverage</div>
+                    <div class="stat-value">95%</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Bug Reduction</div>
+                    <div class="stat-value">-30%</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Efficiency Gain</div>
+                    <div class="stat-value">+25%</div>
+                </div>
+            </div>
+
+            <p class="hero-description">
+                Class: Software Engineer & QA Specialist | Guild: Syracuse University (MS CS) | Previous Quest: Ubisoft Entertainment India | Specializations: QA Automation, Full-Stack Development, Machine Learning
+            </p>
+
+            <div class="action-buttons">
+                <a href="#contact" class="game-btn">START MISSION</a>
+                <a href="#projects" class="game-btn game-btn-secondary">VIEW QUESTS</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="section-header">
+            <div class="section-level">[ CHAPTER 01 ]</div>
+            <h2 class="section-title">PLAYER PROFILE</h2>
+            <p class="section-subtitle">Character backstory and attributes</p>
+        </div>
+
+        <div style="max-width: 900px; color: #aaa; line-height: 1.9; font-size: 1.1rem;">
+            <p style="margin-bottom: 1.5rem;">
+                I'm a Software Engineer with 3+ years of experience in QA and software testing, currently completing my Master's at Syracuse University. My journey began at Ubisoft Entertainment India, where I spent 1.5 years building automation frameworks for AAA multiplayer games.
+            </p>
+            <p style="margin-bottom: 1.5rem;">
+                My core abilities include creating scalable testing solutions, developing full-stack applications, and building machine learning systems. Through strategic optimization, I've achieved a 30% reduction in bug turnaround times and 15% improvement in testing efficiency.
+            </p>
+            <p>
+                Beyond corporate quests, I'm passionate about using technology for social impact missions and contributing to projects that create meaningful change in the world.
+            </p>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience">
+        <div class="section-header">
+            <div class="section-level">[ CHAPTER 02 ]</div>
+            <h2 class="section-title">ACHIEVEMENTS UNLOCKED</h2>
+            <p class="section-subtitle">Major victories and campaigns completed</p>
+        </div>
+
+        <div class="achievements-grid">
+            <div class="achievement-card">
+                <span class="achievement-icon">🎮</span>
+                <h3 class="achievement-title">SDET Master</h3>
+                <div class="achievement-subtitle">Ubisoft Entertainment India</div>
+                <div class="achievement-date">SEP 2019 - MAR 2021</div>
+                <div class="achievement-description">
+                    <ul>
+                        <li>Reduced bug turnaround time by 30% through automated testing frameworks</li>
+                        <li>Built custom network simulation tools for peer-to-peer debugging</li>
+                        <li>Decreased manual testing effort by 15% using PyTest automation</li>
+                        <li>Collaborated with teams serving millions of players worldwide</li>
+                    </ul>
+                </div>
+                <div class="skill-tags">
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">PyTest</span>
+                    <span class="skill-tag">Azure</span>
+                    <span class="skill-tag">CI/CD</span>
+                </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="section-header">
+            <div class="section-level">[ CHAPTER 03 ]</div>
+            <h2 class="section-title">QUEST LOG</h2>
+            <p class="section-subtitle">Completed missions and side quests</p>
+        </div>
+
+        <div class="quest-grid">
+            <div class="quest-card">
+                <div class="quest-header">
+                    <div class="quest-difficulty">LEGENDARY</div>
+                </div>
+                <div class="quest-content">
+                    <h3 class="quest-title">infinitelives RAG System</h3>
+                    <p class="quest-description">
+                        Custom Retrieval-Augmented Generation system with secure API integration and intelligent document processing. Built with comprehensive security measures and environment variable management.
+                    </p>
+                    <div class="quest-rewards">
+                        <div class="reward-item">
+                            <span class="reward-icon">⚡</span>
+                            <span>Real-time Processing</span>
+                        </div>
+                        <div class="reward-item">
+                            <span class="reward-icon">🔒</span>
+                            <span>Secure APIs</span>
+                        </div>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">LLM</span>
+                        <span class="skill-tag">RAG</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quest-card">
+                <div class="quest-header">
+                    <div class="quest-difficulty">EPIC</div>
+                </div>
+                <div class="quest-content">
+                    <h3 class="quest-title">Decentralized Task Marketplace</h3>
+                    <p class="quest-description">
+                        Ethereum-based platform enabling secure peer-to-peer task delegation with smart contracts, automated dispute resolution, and transparent payment systems.
+                    </p>
+                    <div class="quest-rewards">
+                        <div class="reward-item">
+                            <span class="reward-icon">⛓️</span>
+                            <span>Blockchain</span>
+                        </div>
+                        <div class="reward-item">
+                            <span class="reward-icon">🤝</span>
+                            <span>Smart Contracts</span>
+                        </div>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Solidity</span>
+                        <span class="skill-tag">Ethereum</span>
+                        <span class="skill-tag">Web3</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quest-card">
+                <div class="quest-header">
+                    <div class="quest-difficulty">EPIC</div>
+                </div>
+                <div class="quest-content">
+                    <h3 class="quest-title">AI Snake Genetic Algorithm</h3>
+                    <p class="quest-description">
+                        Neural network-powered Snake game achieving 95%+ completion rate through genetic algorithm training across 300 agents over 30 generations.
+                    </p>
+                    <div class="quest-rewards">
+                        <div class="reward-item">
+                            <span class="reward-icon">🧠</span>
+                            <span>95%+ Success</span>
+                        </div>
+                        <div class="reward-item">
+                            <span class="reward-icon">🔬</span>
+                            <span>300 Agents</span>
+                        </div>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">PyTorch</span>
+                        <span class="skill-tag">Neural Nets</span>
+                        <span class="skill-tag">GA</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quest-card">
+                <div class="quest-header">
+                    <div class="quest-difficulty">EPIC</div>
+                </div>
+                <div class="quest-content">
+                    <h3 class="quest-title">Facial Recognition System</h3>
+                    <p class="quest-description">
+                        Real-time surveillance system achieving 95%+ accuracy at 30+ fps using multi-threaded computer vision with OpenCV and MySQL database integration.
+                    </p>
+                    <div class="quest-rewards">
+                        <div class="reward-item">
+                            <span class="reward-icon">👁️</span>
+                            <span>95%+ Accuracy</span>
+                        </div>
+                        <div class="reward-item">
+                            <span class="reward-icon">⚡</span>
+                            <span>30+ FPS</span>
+                        </div>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">OpenCV</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">MySQL</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quest-card">
+                <div class="quest-header">
+                    <div class="quest-difficulty">RARE</div>
+                </div>
+                <div class="quest-content">
+                    <h3 class="quest-title">ML Stock Predictor</h3>
+                    <p class="quest-description">
+                        Hybrid machine learning model achieving 99.96% R² performance through advanced feature engineering of 14+ variables and API integrations.
+                    </p>
+                    <div class="quest-rewards">
+                        <div class="reward-item">
+                            <span class="reward-icon">📈</span>
+                            <span>99.96% R²</span>
+                        </div>
+                        <div class="reward-item">
+                            <span class="reward-icon">🔧</span>
+                            <span>14+ Features</span>
+                        </div>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">XGBoost</span>
+                        <span class="skill-tag">sklearn</span>
+                        <span class="skill-tag">APIs</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="section-header">
+            <div class="section-level">[ CHAPTER 04 ]</div>
+            <h2 class="section-title">INVENTORY</h2>
+            <p class="section-subtitle">Skills and abilities acquired</p>
+        </div>
+
+        <div class="inventory-grid">
+            <div class="inventory-slot">
+                <div class="inventory-category">⚔️ Languages</div>
+                <div class="inventory-items">
+                    <span class="inventory-item">Python</span>
+                    <span class="inventory-item">TypeScript</span>
+                    <span class="inventory-item">JavaScript</span>
+                    <span class="inventory-item">SQL</span>
+                    <span class="inventory-item">Solidity</span>
+                </div>
+            </div>
+
+            <div class="inventory-slot">
+                <div class="inventory-category">🛡️ Testing</div>
+                <div class="inventory-items">
+                    <span class="inventory-item">PyTest</span>
+                    <span class="inventory-item">Unit Testing</span>
+                    <span class="inventory-item">API Testing</span>
+                    <span class="inventory-item">Automation</span>
+                    <span class="inventory-item">CI/CD</span>
+                </div>
+            </div>
+
+            <div class="inventory-slot">
+                <div class="inventory-category">🔮 Frameworks</div>
+                <div class="inventory-items">
+                    <span class="inventory-item">React</span>
+                    <span class="inventory-item">Node.js</span>
+                    <span class="inventory-item">Django</span>
+                    <span class="inventory-item">Flask</span>
+                    <span class="inventory-item">Next.js</span>
+                </div>
+            </div>
+
+            <div class="inventory-slot">
+                <div class="inventory-category">🧙 AI & ML</div>
+                <div class="inventory-items">
+                    <span class="inventory-item">PyTorch</span>
+                    <span class="inventory-item">TensorFlow</span>
+                    <span class="inventory-item">scikit-learn</span>
+                    <span class="inventory-item">OpenCV</span>
+                    <span class="inventory-item">NLP</span>
+                </div>
+            </div>
+
+            <div class="inventory-slot">
+                <div class="inventory-category">☁️ DevOps</div>
+                <div class="inventory-items">
+                    <span class="inventory-item">Git</span>
+                    <span class="inventory-item">Docker</span>
+                    <span class="inventory-item">Azure</span>
+                    <span class="inventory-item">AWS</span>
+                    <span class="inventory-item">Linux</span>
+                </div>
+            </div>
+
+            <div class="inventory-slot">
+                <div class="inventory-category">💾 Databases</div>
+                <div class="inventory-items">
+                    <span class="inventory-item">MySQL</span>
+                    <span class="inventory-item">PostgreSQL</span>
+                    <span class="inventory-item">MongoDB</span>
+                    <span class="inventory-item">Redis</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="boss-arena">
+            <h2 class="boss-title">FINAL BOSS: CONNECT</h2>
+            <p class="boss-subtitle">
+                Ready for the next adventure? I'm seeking full-time quests in Software Engineering, QA, and ML Engineering. Let's team up and build something legendary!
+            </p>
+            <div class="boss-email">
+                <a href="mailto:ashutosh0804k@gmail.com">ashutosh0804k@gmail.com</a>
+            </div>
+            <div class="boss-actions">
+                <a href="https://github.com/ashutosh0804k" target="_blank" class="boss-link">GITHUB</a>
+                <a href="https://www.linkedin.com/in/ashutosh-khatavkar/" target="_blank" class="boss-link">LINKEDIN</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 ASHUTOSH KHATAVKAR | GAME OVER? PRESS START</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                con
