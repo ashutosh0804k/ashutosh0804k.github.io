@@ -18,11 +18,7 @@
             --purple: #8B5CF6;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Rajdhani', sans-serif;
@@ -32,433 +28,324 @@
             overflow-x: hidden;
         }
 
-        /* Animated background */
+        /* Animated grid background */
         .game-bg {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             z-index: -1;
-            opacity: 0.1;
+            opacity: 0.08;
         }
-
-        .game-bg::before,
-        .game-bg::after {
+        .game-bg::before {
             content: '';
             position: absolute;
-            width: 200%;
-            height: 200%;
-            background-image: 
+            width: 200%; height: 200%;
+            background-image:
                 repeating-linear-gradient(0deg, transparent, transparent 2px, var(--primary) 2px, var(--primary) 4px),
                 repeating-linear-gradient(90deg, transparent, transparent 2px, var(--primary) 2px, var(--primary) 4px);
             background-size: 50px 50px;
             animation: grid-move 20s linear infinite;
         }
-
-        .game-bg::after {
-            animation-duration: 30s;
-            opacity: 0.5;
-        }
-
         @keyframes grid-move {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
+            0% { transform: translate(0,0); }
+            100% { transform: translate(50px,50px); }
         }
 
-        /* HUD-style Navigation */
+        /* Loading screen */
+        .loading-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--darker);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+        .loading-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .loading-text {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.2rem;
+            color: var(--primary);
+            animation: blink 1s steps(2) infinite;
+        }
+        .loading-bar-container {
+            width: 300px; height: 6px;
+            background: rgba(255,255,255,0.1);
+            margin-top: 2rem;
+            overflow: hidden;
+        }
+        .loading-bar-fill {
+            height: 100%;
+            background: var(--primary);
+            animation: load-fill 1.5s ease-out forwards;
+        }
+        @keyframes load-fill { 0% { width: 0; } 100% { width: 100%; } }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* XP bar */
+        .xp-bar {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 4px;
+            background: rgba(255,255,255,0.05);
+            z-index: 1001;
+        }
+        .xp-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0;
+            animation: xp-load 2s 1.5s ease-out forwards;
+        }
+        @keyframes xp-load { to { width: 75%; } }
+
+        /* HUD Navigation */
         nav {
             position: fixed;
-            top: 0;
-            width: 100%;
+            top: 4px; width: 100%;
             z-index: 1000;
-            background: linear-gradient(180deg, rgba(10, 14, 26, 0.95) 0%, rgba(10, 14, 26, 0.8) 100%);
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid var(--primary);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3), 0 5px 20px rgba(0, 0, 0, 0.5);
-        }
-
-        nav .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
+            background: linear-gradient(180deg, rgba(10,14,26,0.95), rgba(10,14,26,0.8));
+            border-bottom: 2px solid rgba(255,215,0,0.3);
+            padding: 0.8rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
         .player-tag {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .level-badge {
-            background: linear-gradient(135deg, var(--primary), #FFA500);
-            color: var(--darker);
-            padding: 0.5rem 1rem;
             font-family: 'Press Start 2P', cursive;
-            font-size: 0.7rem;
-            clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-        }
-
-        .player-name {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 1rem;
+            font-size: 0.65rem;
             color: var(--primary);
-            text-shadow: 0 0 10px var(--primary);
+            display: flex; align-items: center; gap: 0.8rem;
         }
-
-        .nav-menu {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-menu a {
+        .level-badge {
+            background: var(--accent);
             color: #fff;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.55rem;
+            clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+        }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a {
+            color: #aaa;
             text-decoration: none;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.95rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 0.5rem 1rem;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
+            letter-spacing: 2px;
+            transition: color 0.3s;
             position: relative;
         }
-
-        .nav-menu a:hover {
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        .nav-links a:hover { color: var(--primary); }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0;
+            width: 0; height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
         }
+        .nav-links a:hover::after { width: 100%; }
 
-        /* XP Bar */
-        .xp-bar {
-            position: fixed;
-            top: 70px;
-            left: 0;
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            z-index: 999;
-            overflow: hidden;
-        }
-
-        .xp-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--success), var(--secondary), var(--purple));
-            width: 0%;
-            animation: xp-load 2s ease-out forwards;
-            box-shadow: 0 0 20px var(--success);
-        }
-
-        @keyframes xp-load {
-            to { width: 85%; }
-        }
-
-        /* Hero Section - Game Start Screen */
+        /* Hero Section */
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
-            padding: 8rem 2rem 2rem;
-            position: relative;
-        }
-
-        .hero-content {
+            padding: 6rem 2rem 4rem;
             max-width: 1400px;
             margin: 0 auto;
-            width: 100%;
         }
-
-        .game-title {
+        .hero-content { max-width: 800px; }
+        .hero-label {
             font-family: 'Press Start 2P', cursive;
-            font-size: clamp(1rem, 3vw, 1.5rem);
+            font-size: 0.7rem;
             color: var(--secondary);
-            margin-bottom: 2rem;
-            text-shadow: 0 0 20px var(--secondary);
+            margin-bottom: 1.5rem;
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .status-dot {
+            width: 8px; height: 8px;
+            background: var(--success);
+            border-radius: 50%;
             animation: pulse 2s infinite;
         }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        h1 {
-            font-family: 'Press Start 2P', cursive;
-            font-size: clamp(2rem, 6vw, 4rem);
-            line-height: 1.4;
-            margin-bottom: 2rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradient-shift 3s ease infinite;
-            background-size: 200% 200%;
-        }
-
-        @keyframes gradient-shift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: 2rem;
-            margin: 2rem 0;
-            flex-wrap: wrap;
-        }
-
-        .stat-box {
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(0, 217, 255, 0.1));
-            border: 2px solid var(--primary);
-            padding: 1rem 2rem;
-            clip-path: polygon(0 0, 95% 0, 100% 100%, 5% 100%);
-            position: relative;
-        }
-
-        .stat-box::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, var(--primary), transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .stat-box:hover::before {
-            opacity: 0.2;
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .stat-value {
-            font-size: 1.8rem;
+        .hero h1 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 4.5rem;
             font-weight: 700;
-            color: var(--primary);
-            text-shadow: 0 0 10px var(--primary);
+            line-height: 1;
+            margin-bottom: 0.5rem;
         }
-
+        .hero h1 .highlight { color: var(--primary); }
         .hero-description {
             font-size: 1.2rem;
             max-width: 700px;
             margin: 2rem 0;
             color: #aaa;
         }
-
-        .action-buttons {
-            display: flex;
-            gap: 1.5rem;
-            margin-top: 3rem;
-            flex-wrap: wrap;
+        .hero-stats {
+            display: flex; gap: 3rem;
+            margin-top: 3rem; flex-wrap: wrap;
         }
-
+        .stat-box { text-align: center; }
+        .stat-value {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        .stat-label {
+            font-size: 0.85rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 0.3rem;
+        }
+        .action-buttons {
+            display: flex; gap: 1.5rem;
+            margin-top: 3rem; flex-wrap: wrap;
+        }
         .game-btn {
             padding: 1.2rem 3rem;
             font-family: 'Rajdhani', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 700;
+            font-size: 1.1rem; font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
             border: 3px solid var(--primary);
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), transparent);
+            background: linear-gradient(135deg, rgba(255,215,0,0.2), transparent);
             color: var(--primary);
             cursor: pointer;
             clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
-            transition: all 0.3s ease;
+            transition: all 0.3s;
             text-decoration: none;
             display: inline-block;
             position: relative;
             overflow: hidden;
         }
-
         .game-btn::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
             transition: left 0.5s;
         }
-
-        .game-btn:hover::before {
-            left: 100%;
-        }
-
+        .game-btn:hover::before { left: 100%; }
         .game-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 0 30px var(--primary), 0 10px 30px rgba(0, 0, 0, 0.5);
-            border-color: var(--secondary);
-            color: var(--secondary);
+            box-shadow: 0 0 30px var(--primary), 0 10px 30px rgba(0,0,0,0.5);
         }
-
         .game-btn-secondary {
             border-color: var(--accent);
             color: var(--accent);
-            background: linear-gradient(135deg, rgba(255, 70, 85, 0.2), transparent);
+            background: linear-gradient(135deg, rgba(255,70,85,0.2), transparent);
         }
-
         .game-btn-secondary:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            box-shadow: 0 0 30px var(--accent), 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 30px var(--accent), 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        /* Section Headers */
+        /* Section styling */
         section {
-            padding: 6rem 2rem;
+            padding: 5rem 2rem;
             max-width: 1400px;
             margin: 0 auto;
-            position: relative;
         }
-
-        .section-header {
-            margin-bottom: 4rem;
-        }
-
+        .section-header { margin-bottom: 3rem; }
         .section-level {
             font-family: 'Press Start 2P', cursive;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: var(--secondary);
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
         }
-
         .section-title {
-            font-family: 'Press Start 2P', cursive;
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-size: 2.5rem;
+            font-weight: 700;
             color: var(--primary);
-            margin-bottom: 1rem;
-            text-shadow: 0 0 15px var(--primary);
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .section-subtitle {
-            font-size: 1.1rem;
-            color: #888;
-        }
-
-        /* Achievement Cards */
-        .achievements-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
+        /* Achievement Cards (Experience) */
         .achievement-card {
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), rgba(0, 217, 255, 0.05));
-            border: 2px solid var(--primary);
-            padding: 2rem;
+            background: rgba(10,14,26,0.8);
+            border: 2px solid rgba(255,215,0,0.3);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
             position: relative;
             overflow: hidden;
-            transition: all 0.3s ease;
-            clip-path: polygon(0 0, 100% 0, 100% 90%, 90% 100%, 0 100%);
         }
-
         .achievement-card::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, transparent, var(--primary), transparent);
-            animation: rotate 4s linear infinite;
-            opacity: 0;
-            transition: opacity 0.3s;
+            top: 0; left: 0;
+            width: 4px; height: 100%;
+            background: var(--primary);
         }
-
-        .achievement-card:hover::before {
-            opacity: 0.1;
-        }
-
-        @keyframes rotate {
-            to { transform: rotate(360deg); }
-        }
-
         .achievement-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 0 30px var(--primary), 0 20px 40px rgba(0, 0, 0, 0.5);
-            border-color: var(--secondary);
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(255,215,0,0.1);
         }
-
-        .achievement-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            display: block;
+        .achievement-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
-
         .achievement-title {
-            font-family: 'Rajdhani', sans-serif;
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--primary);
-            margin-bottom: 0.5rem;
         }
-
-        .achievement-subtitle {
-            font-size: 1rem;
-            color: var(--secondary);
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
         .achievement-date {
-            font-size: 0.85rem;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: inline-block;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.55rem;
+            color: var(--secondary);
+            border: 1px solid var(--secondary);
             padding: 0.3rem 0.8rem;
-            border: 1px solid #666;
         }
-
-        .achievement-description {
-            color: #aaa;
-            line-height: 1.8;
-            margin: 1rem 0;
+        .achievement-company {
+            font-size: 1.1rem;
+            color: #888;
+            margin-bottom: 1rem;
+            font-style: italic;
         }
-
-        .achievement-description ul {
-            list-style: none;
-            padding: 0;
-        }
-
+        .achievement-description { color: #bbb; line-height: 1.8; }
+        .achievement-description ul { list-style: none; padding: 0; }
         .achievement-description li {
             margin: 0.8rem 0;
             padding-left: 1.5rem;
             position: relative;
         }
-
         .achievement-description li::before {
-            content: '▶';
+            content: '\25B6';
             position: absolute;
             left: 0;
             color: var(--success);
+            font-size: 0.7rem;
+            top: 0.25rem;
         }
-
         .skill-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-            margin-top: 1.5rem;
+            display: flex; flex-wrap: wrap;
+            gap: 0.6rem; margin-top: 1.5rem;
         }
-
         .skill-tag {
-            padding: 0.4rem 1rem;
-            background: rgba(0, 255, 136, 0.1);
+            padding: 0.3rem 0.8rem;
+            background: rgba(0,255,136,0.1);
             border: 1px solid var(--success);
             color: var(--success);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -467,678 +354,557 @@
         .quest-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2.5rem;
+            gap: 2rem;
         }
-
         .quest-card {
-            background: rgba(10, 14, 26, 0.8);
+            background: rgba(10,14,26,0.8);
             border: 3px solid var(--accent);
-            padding: 0;
             position: relative;
             overflow: hidden;
-            transition: all 0.3s ease;
-            cursor: pointer;
+            transition: all 0.3s;
         }
-
-        .quest-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 70, 85, 0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .quest-card:hover::before {
-            left: 100%;
-        }
-
         .quest-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 0 30px var(--accent), 0 20px 50px rgba(0, 0, 0, 0.5);
+            transform: translateY(-8px);
+            box-shadow: 0 0 30px var(--accent), 0 15px 40px rgba(0,0,0,0.5);
             border-color: var(--primary);
         }
-
         .quest-header {
-            padding: 1.5rem;
-            background: linear-gradient(135deg, rgba(255, 70, 85, 0.3), rgba(139, 92, 246, 0.3));
+            padding: 1.2rem 1.5rem;
+            background: linear-gradient(135deg, rgba(255,70,85,0.3), rgba(139,92,246,0.3));
             border-bottom: 2px solid var(--accent);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
+        .quest-title { font-size: 1.2rem; font-weight: 700; }
         .quest-difficulty {
             font-family: 'Press Start 2P', cursive;
-            font-size: 0.7rem;
-            color: var(--primary);
-            padding: 0.5rem 1rem;
-            border: 2px solid var(--primary);
-            background: rgba(255, 215, 0, 0.1);
+            font-size: 0.5rem;
+            padding: 0.3rem 0.8rem;
         }
-
-        .quest-content {
-            padding: 2rem;
-        }
-
-        .quest-title {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .quest-description {
-            color: #aaa;
-            line-height: 1.7;
-            margin-bottom: 1.5rem;
-        }
-
+        .quest-difficulty.legendary { color: var(--primary); border: 1px solid var(--primary); }
+        .quest-difficulty.epic { color: var(--purple); border: 1px solid var(--purple); }
+        .quest-difficulty.rare { color: var(--secondary); border: 1px solid var(--secondary); }
+        .quest-body { padding: 1.5rem; }
+        .quest-body p { color: #aaa; font-size: 0.95rem; margin-bottom: 1rem; }
+        .quest-date { font-size: 0.8rem; color: #666; }
         .quest-rewards {
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
+            display: flex; flex-wrap: wrap;
+            gap: 0.5rem; margin-top: 1rem;
         }
-
-        .reward-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--success);
-            font-weight: 600;
-        }
-
-        .reward-icon {
-            font-size: 1.3rem;
+        .quest-reward {
+            padding: 0.2rem 0.6rem;
+            background: rgba(139,92,246,0.15);
+            border: 1px solid var(--purple);
+            color: var(--purple);
+            font-size: 0.75rem;
         }
 
         /* Inventory (Skills) */
         .inventory-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
         }
-
         .inventory-slot {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(0, 217, 255, 0.1));
-            border: 2px solid var(--purple);
+            background: rgba(10,14,26,0.8);
+            border: 2px solid rgba(255,255,255,0.1);
             padding: 2rem;
-            position: relative;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
         }
-
         .inventory-slot:hover {
             border-color: var(--secondary);
-            box-shadow: 0 0 20px var(--secondary);
-            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0,217,255,0.1);
         }
-
+        .inventory-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
         .inventory-category {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--purple);
-            margin-bottom: 1.5rem;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
         }
-
         .inventory-items {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
+            display: flex; flex-wrap: wrap;
+            gap: 0.5rem;
         }
-
         .inventory-item {
-            padding: 0.5rem 1rem;
-            background: rgba(139, 92, 246, 0.2);
-            border: 1px solid var(--purple);
-            color: #fff;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
+            padding: 0.3rem 0.7rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #ccc;
+            font-size: 0.85rem;
+            transition: all 0.3s;
         }
-
         .inventory-item:hover {
-            background: var(--purple);
-            transform: scale(1.1);
+            border-color: var(--primary);
+            color: var(--primary);
         }
 
         /* Boss Fight (Contact) */
-        .boss-arena {
-            background: linear-gradient(135deg, rgba(255, 70, 85, 0.1), rgba(255, 215, 0, 0.1));
-            border: 3px solid var(--accent);
-            padding: 4rem;
+        .boss-section {
             text-align: center;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 50px var(--accent);
+            padding: 6rem 2rem;
         }
-
-        .boss-arena::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(255, 70, 85, 0.2) 0%, transparent 70%);
-            animation: pulse-boss 3s ease-in-out infinite;
-        }
-
-        @keyframes pulse-boss {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.2); }
-        }
-
         .boss-title {
             font-family: 'Press Start 2P', cursive;
-            font-size: clamp(1.5rem, 4vw, 3rem);
+            font-size: 1.5rem;
             color: var(--accent);
-            margin-bottom: 2rem;
-            text-shadow: 0 0 20px var(--accent);
-            position: relative;
-            z-index: 1;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
         }
-
         .boss-subtitle {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: #aaa;
             margin-bottom: 3rem;
             max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            position: relative;
-            z-index: 1;
+            margin-left: auto; margin-right: auto;
         }
-
-        .boss-email {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 2rem;
-            font-weight: 700;
-            margin: 2rem 0;
-            position: relative;
-            z-index: 1;
-        }
-
-        .boss-email a {
-            color: var(--primary);
-            text-decoration: none;
-            border-bottom: 3px solid var(--primary);
-            padding-bottom: 0.5rem;
-            text-shadow: 0 0 10px var(--primary);
-        }
-
-        .boss-email a:hover {
-            color: var(--secondary);
-            border-color: var(--secondary);
-        }
-
-        .boss-actions {
+        .contact-grid {
             display: flex;
             justify-content: center;
-            gap: 2rem;
-            margin-top: 3rem;
-            flex-wrap: wrap;
-            position: relative;
-            z-index: 1;
+            gap: 2rem; flex-wrap: wrap;
         }
-
-        .boss-link {
-            padding: 1.2rem 2.5rem;
-            border: 3px solid var(--success);
-            color: var(--success);
+        .contact-card {
+            padding: 2rem 3rem;
+            background: rgba(10,14,26,0.8);
+            border: 2px solid rgba(255,255,255,0.1);
             text-decoration: none;
-            font-weight: 700;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
-            transition: all 0.3s ease;
-            background: rgba(0, 255, 136, 0.1);
+            color: #fff;
+            transition: all 0.3s;
+            min-width: 200px;
         }
-
-        .boss-link:hover {
-            background: var(--success);
-            color: var(--darker);
-            box-shadow: 0 0 30px var(--success);
-            transform: scale(1.05);
+        .contact-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(255,215,0,0.2);
         }
+        .contact-card-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .contact-card-label {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.55rem;
+            color: var(--secondary);
+            margin-bottom: 0.3rem;
+        }
+        .contact-card-value { font-size: 1rem; color: #ccc; }
 
         /* Footer */
         footer {
             text-align: center;
-            padding: 3rem;
-            border-top: 2px solid var(--primary);
-            color: #666;
-        }
-
-        footer p {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.7rem;
+            padding: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: #444;
+            font-size: 0.85rem;
         }
 
         /* Responsive */
-        @media (max-width: 968px) {
-            .nav-menu {
-                display: none;
-            }
-
-            .hero-stats {
-                flex-direction: column;
-            }
-
-            .quest-grid,
-            .inventory-grid,
-            .achievements-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .boss-arena {
-                padding: 2rem;
-            }
-        }
-
-        /* Loading screen effect */
-        .page-load {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--darker);
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: fadeOut 1s ease 1.5s forwards;
-        }
-
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-                pointer-events: none;
-            }
-        }
-
-        .loading-text {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 1.5rem;
-            color: var(--primary);
-            text-shadow: 0 0 20px var(--primary);
-            animation: pulse 1s infinite;
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; }
+            .hero-stats { gap: 1.5rem; }
+            .quest-grid { grid-template-columns: 1fr; }
+            .inventory-grid { grid-template-columns: 1fr; }
+            .game-btn { padding: 1rem 2rem; font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
+
     <!-- Loading Screen -->
-    <div class="page-load">
+    <div class="loading-screen" id="loader">
         <div class="loading-text">LOADING...</div>
+        <div class="loading-bar-container">
+            <div class="loading-bar-fill"></div>
+        </div>
     </div>
+
+    <!-- XP Bar -->
+    <div class="xp-bar"><div class="xp-fill"></div></div>
 
     <!-- Animated Background -->
     <div class="game-bg"></div>
 
-    <!-- HUD Navigation -->
+    <!-- Navigation -->
     <nav>
-        <div class="container">
-            <div class="player-tag">
-                <div class="level-badge">LVL 25</div>
-                <div class="player-name">PLAYER_AK</div>
-            </div>
-            <ul class="nav-menu">
-                <li><a href="#about">Profile</a></li>
-                <li><a href="#experience">Achievements</a></li>
-                <li><a href="#projects">Quests</a></li>
-                <li><a href="#skills">Inventory</a></li>
-                <li><a href="#contact">Connect</a></li>
-            </ul>
+        <div class="player-tag">
+            PLAYER_AK <span class="level-badge">LVL 25</span>
+        </div>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#experience">Experience</a>
+            <a href="#quests">Projects</a>
+            <a href="#inventory">Skills</a>
+            <a href="#boss">Contact</a>
         </div>
     </nav>
 
-    <!-- XP Bar -->
-    <div class="xp-bar">
-        <div class="xp-fill"></div>
-    </div>
-
-    <!-- Hero Section -->
-    <section class="hero">
+    <!-- Hero -->
+    <section class="hero" id="about">
         <div class="hero-content">
-            <div class="game-title">▶ NEW GAME STARTED</div>
-            <h1>ASHUTOSH<br>KHATAVKAR</h1>
-            
+            <div class="hero-label">
+                <span class="status-dot"></span> OPEN TO OPPORTUNITIES
+            </div>
+            <h1>ASHUTOSH<br><span class="highlight">KHATAVKAR</span></h1>
+            <p class="hero-description">
+                Class: SDET & QA Automation Engineer | Guild: Syracuse University (MS CS) | Previous Quest: Ubisoft Entertainment India (Sep 2019 - Mar 2021) | Active Quest: Infinite Lives / Preservation Quest | Specializations: Test Automation, Python, CI/CD, API Testing
+            </p>
             <div class="hero-stats">
                 <div class="stat-box">
-                    <div class="stat-label">Experience</div>
-                    <div class="stat-value">1.5+ YRS</div>
+                    <div class="stat-value">1.5+</div>
+                    <div class="stat-label">Years at Ubisoft</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-label">Test Coverage</div>
-                    <div class="stat-value">95%</div>
-                </div>
-                <div class="stat-box">
+                    <div class="stat-value">30%</div>
                     <div class="stat-label">Bug Reduction</div>
-                    <div class="stat-value">-30%</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-label">Efficiency Gain</div>
-                    <div class="stat-value">+25%</div>
+                    <div class="stat-value">95%</div>
+                    <div class="stat-label">Test Coverage</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">320+</div>
+                    <div class="stat-label">Hours Saved/Qtr</div>
                 </div>
             </div>
-
-            <p class="hero-description">
-                Class: Software Engineer & QA Specialist | Guild: Syracuse University (MS CS) | Previous Quest: Ubisoft Entertainment India | Specializations: QA Automation, Full-Stack Development, Machine Learning
-            </p>
-
             <div class="action-buttons">
-                <a href="#contact" class="game-btn">START MISSION</a>
-                <a href="#projects" class="game-btn game-btn-secondary">VIEW QUESTS</a>
+                <a href="mailto:ashutosh0804k@gmail.com" class="game-btn">Send Message</a>
+                <a href="https://github.com/ashutosh0804k" target="_blank" class="game-btn game-btn-secondary">View GitHub</a>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about">
-        <div class="section-header">
-            <div class="section-level">[ CHAPTER 01 ]</div>
-            <h2 class="section-title">PLAYER PROFILE</h2>
-            <p class="section-subtitle">Character backstory and attributes</p>
-        </div>
-
-        <div style="max-width: 900px; color: #aaa; line-height: 1.9; font-size: 1.1rem;">
-            <p style="margin-bottom: 1.5rem;">
-                I'm a Software Engineer with 3+ years of experience in QA and software testing, currently completing my Master's at Syracuse University. My journey began at Ubisoft Entertainment India, where I spent 1.5 years building automation frameworks for AAA multiplayer games.
-            </p>
-            <p style="margin-bottom: 1.5rem;">
-                My core abilities include creating scalable testing solutions, developing full-stack applications, and building machine learning systems. Through strategic optimization, I've achieved a 30% reduction in bug turnaround times and 15% improvement in testing efficiency.
-            </p>
-            <p>
-                Beyond corporate quests, I'm passionate about using technology for social impact missions and contributing to projects that create meaningful change in the world.
-            </p>
-        </div>
-    </section>
-
-    <!-- Experience Section -->
+    <!-- CHAPTER 01: EXPERIENCE -->
     <section id="experience">
-        <div class="section-header">
-            <div class="section-level">[ CHAPTER 02 ]</div>
-            <h2 class="section-title">ACHIEVEMENTS UNLOCKED</h2>
-            <p class="section-subtitle">Major victories and campaigns completed</p>
+        <div class="section-header fade-in">
+            <div class="section-level">CHAPTER 01</div>
+            <div class="section-title">ACHIEVEMENTS UNLOCKED</div>
         </div>
 
-        <div class="achievements-grid">
-            <div class="achievement-card">
-                <span class="achievement-icon">🎮</span>
-                <h3 class="achievement-title">SDET Master</h3>
-                <div class="achievement-subtitle">Ubisoft Entertainment India</div>
+        <!-- Ubisoft -->
+        <div class="achievement-card fade-in">
+            <div class="achievement-header">
+                <div class="achievement-title">Software Engineer in Test</div>
                 <div class="achievement-date">SEP 2019 - MAR 2021</div>
-                <div class="achievement-description">
-                    <ul>
-                        <li>Reduced bug turnaround time by 30% through automated testing frameworks</li>
-                        <li>Built custom network simulation tools for peer-to-peer debugging</li>
-                        <li>Decreased manual testing effort by 15% using PyTest automation</li>
-                        <li>Collaborated with teams serving millions of players worldwide</li>
-                    </ul>
-                </div>
-                <div class="skill-tags">
-                    <span class="skill-tag">Python</span>
-                    <span class="skill-tag">PyTest</span>
-                    <span class="skill-tag">Azure</span>
-                    <span class="skill-tag">CI/CD</span>
-                </div>
+            </div>
+            <div class="achievement-company">Ubisoft Entertainment India - AAA gaming studio behind Assassin's Creed and Rainbow Six Siege, serving 100M+ players globally.</div>
+            <div class="achievement-description">
+                <ul>
+                    <li>Shipped <strong>4 seasonal updates</strong> for <strong>100K+ concurrent players</strong> by reducing regression testing from <strong>10 to 7 days</strong> through <strong>Python/Selenium/PyTest</strong> automation achieving <strong>95% coverage</strong> across <strong>300+ test cases</strong> tracked in <strong>JIRA</strong> under <strong>Agile</strong>.</li>
+                    <li>Built custom <strong>Python</strong> network simulation tool that let us reproduce peer-to-peer sync bugs on demand under <strong>50-300ms latency</strong> and <strong>5-15% packet loss</strong>. Caught several critical bugs before they reached players, saving <strong>8+ debugging hours</strong> per issue.</li>
+                    <li>Plugged automated <strong>Python/Selenium</strong> suites and <strong>Postman REST API</strong> tests into <strong>Azure DevOps CI/CD</strong> pipelines. Team velocity went up <strong>25%</strong>, deployment time dropped from <strong>8 to 6 days</strong>, and hotfix turnaround improved by <strong>20%</strong>.</li>
+                    <li>Wrote <strong>Python</strong> scripts to automate test environment setup, cutting it from <strong>2 hours to 15 minutes</strong> per instance. Freed up <strong>320+ hours quarterly</strong> for the QA team.</li>
+                    <li>Ran release validation across <strong>PlayStation 4</strong>, <strong>Xbox One</strong>, and <strong>PC</strong> before every update, checking frame rates, controller latency, memory usage, and platform-specific compliance in <strong>Agile</strong> sprints.</li>
+                </ul>
+            </div>
+            <div class="skill-tags">
+                <span class="skill-tag">Python</span>
+                <span class="skill-tag">Selenium</span>
+                <span class="skill-tag">PyTest</span>
+                <span class="skill-tag">Azure DevOps</span>
+                <span class="skill-tag">CI/CD</span>
+                <span class="skill-tag">Postman</span>
+                <span class="skill-tag">JIRA</span>
+                <span class="skill-tag">Agile</span>
+            </div>
+        </div>
+
+        <!-- Infinite Lives -->
+        <div class="achievement-card fade-in">
+            <div class="achievement-header">
+                <div class="achievement-title">Developer (Open Source)</div>
+                <div class="achievement-date">2024 - PRESENT</div>
+            </div>
+            <div class="achievement-company">Preservation Quest / Infinite Lives - Video game preservation nonprofit. Building tools for academic research on games.</div>
+            <div class="achievement-description">
+                <ul>
+                    <li>Built the <strong>Gameplay Event Agent</strong>, part of a multi-agent knowledge graph system. Uses <strong>Python</strong> and the <strong>Anthropic API</strong> to pull structured gameplay events out of walkthrough content. Tested end-to-end with Zelda: Breath of the Wild walkthroughs.</li>
+                    <li>Wrote a <strong>RAG (Retrieval-Augmented Generation)</strong> system that lets users query video game research papers in natural language. Rewrote it from v1 to <strong>v2.0</strong> with singleton patterns, exponential backoff, and <strong>66% fewer API calls</strong>.</li>
+                    <li>Shipped the codebase to <strong>GitHub</strong> (<strong>PreservationQuest/infinitelives</strong>). Fixed exposed API keys from v1, added input validation and rate limiting before making the repo public.</li>
+                </ul>
+            </div>
+            <div class="skill-tags">
+                <span class="skill-tag">Python</span>
+                <span class="skill-tag">Anthropic API</span>
+                <span class="skill-tag">RAG</span>
+                <span class="skill-tag">Knowledge Graphs</span>
+                <span class="skill-tag">GitHub</span>
+                <span class="skill-tag">API Design</span>
+            </div>
         </div>
     </section>
 
-    <!-- Projects Section -->
-    <section id="projects">
-        <div class="section-header">
-            <div class="section-level">[ CHAPTER 03 ]</div>
-            <h2 class="section-title">QUEST LOG</h2>
-            <p class="section-subtitle">Completed missions and side quests</p>
+    <!-- CHAPTER 02: QUEST LOG (Projects) -->
+    <section id="quests">
+        <div class="section-header fade-in">
+            <div class="section-level">CHAPTER 02</div>
+            <div class="section-title">QUEST LOG</div>
         </div>
 
         <div class="quest-grid">
-            <div class="quest-card">
+            <div class="quest-card fade-in">
                 <div class="quest-header">
-                    <div class="quest-difficulty">LEGENDARY</div>
+                    <div class="quest-title">Decentralized Task Marketplace</div>
+                    <div class="quest-difficulty legendary">LEGENDARY</div>
                 </div>
-                <div class="quest-content">
-                    <h3 class="quest-title">infinitelives RAG System</h3>
-                    <p class="quest-description">
-                        Custom Retrieval-Augmented Generation system with secure API integration and intelligent document processing. Built with comprehensive security measures and environment variable management.
-                    </p>
+                <div class="quest-body">
+                    <p>Built trustless freelance marketplace with smart contract escrow and AMM swaps (x*y=k formula, &lt;0.5% slippage) on Ethereum using Solidity, React frontend with MetaMask and IPFS integration.</p>
+                    <div class="quest-date">Mar 2025 - May 2025</div>
                     <div class="quest-rewards">
-                        <div class="reward-item">
-                            <span class="reward-icon">⚡</span>
-                            <span>Real-time Processing</span>
-                        </div>
-                        <div class="reward-item">
-                            <span class="reward-icon">🔒</span>
-                            <span>Secure APIs</span>
-                        </div>
-                    </div>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Python</span>
-                        <span class="skill-tag">LLM</span>
-                        <span class="skill-tag">RAG</span>
+                        <span class="quest-reward">Solidity</span>
+                        <span class="quest-reward">Ethereum</span>
+                        <span class="quest-reward">React</span>
+                        <span class="quest-reward">MetaMask</span>
+                        <span class="quest-reward">IPFS</span>
                     </div>
                 </div>
             </div>
 
-            <div class="quest-card">
+            <div class="quest-card fade-in">
                 <div class="quest-header">
-                    <div class="quest-difficulty">EPIC</div>
+                    <div class="quest-title">Infinite Lives RAG System</div>
+                    <div class="quest-difficulty legendary">LEGENDARY</div>
                 </div>
-                <div class="quest-content">
-                    <h3 class="quest-title">Decentralized Task Marketplace</h3>
-                    <p class="quest-description">
-                        Ethereum-based platform enabling secure peer-to-peer task delegation with smart contracts, automated dispute resolution, and transparent payment systems.
-                    </p>
+                <div class="quest-body">
+                    <p>RAG-based platform for querying video game research papers. Rewrote from v1 to production-ready v2.0 with singleton patterns, exponential backoff, and 66% reduction in API calls. Part of a multi-agent knowledge graph architecture.</p>
+                    <div class="quest-date">2024 - Present</div>
                     <div class="quest-rewards">
-                        <div class="reward-item">
-                            <span class="reward-icon">⛓️</span>
-                            <span>Blockchain</span>
-                        </div>
-                        <div class="reward-item">
-                            <span class="reward-icon">🤝</span>
-                            <span>Smart Contracts</span>
-                        </div>
-                    </div>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Solidity</span>
-                        <span class="skill-tag">Ethereum</span>
-                        <span class="skill-tag">Web3</span>
+                        <span class="quest-reward">Python</span>
+                        <span class="quest-reward">RAG</span>
+                        <span class="quest-reward">Anthropic API</span>
+                        <span class="quest-reward">Knowledge Graphs</span>
                     </div>
                 </div>
             </div>
 
-            <div class="quest-card">
+            <div class="quest-card fade-in">
                 <div class="quest-header">
-                    <div class="quest-difficulty">EPIC</div>
+                    <div class="quest-title">ML Stock Price Predictor</div>
+                    <div class="quest-difficulty epic">EPIC</div>
                 </div>
-                <div class="quest-content">
-                    <h3 class="quest-title">AI Snake Genetic Algorithm</h3>
-                    <p class="quest-description">
-                        Neural network-powered Snake game achieving 95%+ completion rate through genetic algorithm training across 300 agents over 30 generations.
-                    </p>
+                <div class="quest-body">
+                    <p>Achieved 99.96% R&sup2; with hybrid Ridge Regression + XGBoost model through feature engineering of 14+ variables, integrating Yahoo Finance and FRED APIs.</p>
+                    <div class="quest-date">Jan 2025 - Mar 2025</div>
                     <div class="quest-rewards">
-                        <div class="reward-item">
-                            <span class="reward-icon">🧠</span>
-                            <span>95%+ Success</span>
-                        </div>
-                        <div class="reward-item">
-                            <span class="reward-icon">🔬</span>
-                            <span>300 Agents</span>
-                        </div>
-                    </div>
-                    <div class="skill-tags">
-                        <span class="skill-tag">PyTorch</span>
-                        <span class="skill-tag">Neural Nets</span>
-                        <span class="skill-tag">GA</span>
+                        <span class="quest-reward">Python</span>
+                        <span class="quest-reward">XGBoost</span>
+                        <span class="quest-reward">PyTorch</span>
+                        <span class="quest-reward">Pandas</span>
                     </div>
                 </div>
             </div>
 
-            <div class="quest-card">
+            <div class="quest-card fade-in">
                 <div class="quest-header">
-                    <div class="quest-difficulty">EPIC</div>
+                    <div class="quest-title">AI Snake Game</div>
+                    <div class="quest-difficulty epic">EPIC</div>
                 </div>
-                <div class="quest-content">
-                    <h3 class="quest-title">Facial Recognition System</h3>
-                    <p class="quest-description">
-                        Real-time surveillance system achieving 95%+ accuracy at 30+ fps using multi-threaded computer vision with OpenCV and MySQL database integration.
-                    </p>
+                <div class="quest-body">
+                    <p>Achieved 95%+ completion rate using neural network trained via genetic algorithms across 300 agents over 30 generations, implementing 4 pathfinding algorithms (BFS, DFS, A*, GA) with real-time Pygame visualization.</p>
+                    <div class="quest-date">Jan 2024 - Mar 2024</div>
                     <div class="quest-rewards">
-                        <div class="reward-item">
-                            <span class="reward-icon">👁️</span>
-                            <span>95%+ Accuracy</span>
-                        </div>
-                        <div class="reward-item">
-                            <span class="reward-icon">⚡</span>
-                            <span>30+ FPS</span>
-                        </div>
-                    </div>
-                    <div class="skill-tags">
-                        <span class="skill-tag">OpenCV</span>
-                        <span class="skill-tag">Python</span>
-                        <span class="skill-tag">MySQL</span>
+                        <span class="quest-reward">Python</span>
+                        <span class="quest-reward">Genetic Algorithms</span>
+                        <span class="quest-reward">Pygame</span>
+                        <span class="quest-reward">Neural Networks</span>
                     </div>
                 </div>
             </div>
 
-            <div class="quest-card">
+            <div class="quest-card fade-in">
                 <div class="quest-header">
-                    <div class="quest-difficulty">RARE</div>
+                    <div class="quest-title">Gomoku AI</div>
+                    <div class="quest-difficulty rare">RARE</div>
                 </div>
-                <div class="quest-content">
-                    <h3 class="quest-title">ML Stock Predictor</h3>
-                    <p class="quest-description">
-                        Hybrid machine learning model achieving 99.96% R² performance through advanced feature engineering of 14+ variables and API integrations.
-                    </p>
+                <div class="quest-body">
+                    <p>Built a competitive AI for Gomoku using minimax with alpha-beta pruning. Tuned heuristic evaluation function to play well without searching too deep.</p>
+                    <div class="quest-date">2024</div>
                     <div class="quest-rewards">
-                        <div class="reward-item">
-                            <span class="reward-icon">📈</span>
-                            <span>99.96% R²</span>
-                        </div>
-                        <div class="reward-item">
-                            <span class="reward-icon">🔧</span>
-                            <span>14+ Features</span>
-                        </div>
+                        <span class="quest-reward">Python</span>
+                        <span class="quest-reward">Minimax</span>
+                        <span class="quest-reward">Game AI</span>
                     </div>
-                    <div class="skill-tags">
-                        <span class="skill-tag">XGBoost</span>
-                        <span class="skill-tag">sklearn</span>
-                        <span class="skill-tag">APIs</span>
+                </div>
+            </div>
+
+            <div class="quest-card fade-in">
+                <div class="quest-header">
+                    <div class="quest-title">Real-Time Facial Recognition</div>
+                    <div class="quest-difficulty epic">EPIC</div>
+                </div>
+                <div class="quest-body">
+                    <p>Live facial detection and recognition system using webcam feed. Detects faces in real time, matches them against a stored dataset using OpenCV.</p>
+                    <div class="quest-date">2024</div>
+                    <div class="quest-rewards">
+                        <span class="quest-reward">Python</span>
+                        <span class="quest-reward">OpenCV</span>
+                        <span class="quest-reward">Computer Vision</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Skills Section -->
-    <section id="skills">
-        <div class="section-header">
-            <div class="section-level">[ CHAPTER 04 ]</div>
-            <h2 class="section-title">INVENTORY</h2>
-            <p class="section-subtitle">Skills and abilities acquired</p>
+    <!-- CHAPTER 03: INVENTORY (Skills) -->
+    <section id="inventory">
+        <div class="section-header fade-in">
+            <div class="section-level">CHAPTER 03</div>
+            <div class="section-title">INVENTORY</div>
         </div>
 
         <div class="inventory-grid">
-            <div class="inventory-slot">
-                <div class="inventory-category">⚔️ Languages</div>
+            <div class="inventory-slot fade-in">
+                <div class="inventory-icon">&#9876;</div>
+                <div class="inventory-category">Testing & QA</div>
+                <div class="inventory-items">
+                    <span class="inventory-item">Selenium</span>
+                    <span class="inventory-item">PyTest</span>
+                    <span class="inventory-item">Postman</span>
+                    <span class="inventory-item">API Testing</span>
+                    <span class="inventory-item">Playwright</span>
+                    <span class="inventory-item">Cypress</span>
+                    <span class="inventory-item">Test Automation</span>
+                    <span class="inventory-item">Regression Testing</span>
+                    <span class="inventory-item">CI/CD</span>
+                    <span class="inventory-item">Agile/Scrum</span>
+                    <span class="inventory-item">JIRA</span>
+                    <span class="inventory-item">Cross-Platform</span>
+                </div>
+            </div>
+
+            <div class="inventory-slot fade-in">
+                <div class="inventory-icon">&#128187;</div>
+                <div class="inventory-category">Languages</div>
                 <div class="inventory-items">
                     <span class="inventory-item">Python</span>
-                    <span class="inventory-item">TypeScript</span>
                     <span class="inventory-item">JavaScript</span>
+                    <span class="inventory-item">TypeScript</span>
+                    <span class="inventory-item">Java</span>
                     <span class="inventory-item">SQL</span>
+                    <span class="inventory-item">C++</span>
                     <span class="inventory-item">Solidity</span>
                 </div>
             </div>
 
-            <div class="inventory-slot">
-                <div class="inventory-category">🛡️ Testing</div>
+            <div class="inventory-slot fade-in">
+                <div class="inventory-icon">&#128736;</div>
+                <div class="inventory-category">Frameworks & DevOps</div>
                 <div class="inventory-items">
-                    <span class="inventory-item">PyTest</span>
-                    <span class="inventory-item">Unit Testing</span>
-                    <span class="inventory-item">API Testing</span>
-                    <span class="inventory-item">Automation</span>
-                    <span class="inventory-item">CI/CD</span>
-                </div>
-            </div>
-
-            <div class="inventory-slot">
-                <div class="inventory-category">🔮 Frameworks</div>
-                <div class="inventory-items">
-                    <span class="inventory-item">React</span>
+                    <span class="inventory-item">Selenium WebDriver</span>
+                    <span class="inventory-item">ReactJS</span>
                     <span class="inventory-item">Node.js</span>
-                    <span class="inventory-item">Django</span>
-                    <span class="inventory-item">Flask</span>
-                    <span class="inventory-item">Next.js</span>
+                    <span class="inventory-item">Azure DevOps</span>
+                    <span class="inventory-item">Jenkins</span>
+                    <span class="inventory-item">Docker</span>
+                    <span class="inventory-item">Git</span>
                 </div>
             </div>
 
-            <div class="inventory-slot">
-                <div class="inventory-category">🧙 AI & ML</div>
+            <div class="inventory-slot fade-in">
+                <div class="inventory-icon">&#129504;</div>
+                <div class="inventory-category">ML & Data</div>
                 <div class="inventory-items">
                     <span class="inventory-item">PyTorch</span>
                     <span class="inventory-item">TensorFlow</span>
                     <span class="inventory-item">scikit-learn</span>
+                    <span class="inventory-item">Pandas</span>
+                    <span class="inventory-item">NumPy</span>
+                    <span class="inventory-item">XGBoost</span>
                     <span class="inventory-item">OpenCV</span>
-                    <span class="inventory-item">NLP</span>
                 </div>
             </div>
 
-            <div class="inventory-slot">
-                <div class="inventory-category">☁️ DevOps</div>
-                <div class="inventory-items">
-                    <span class="inventory-item">Git</span>
-                    <span class="inventory-item">Docker</span>
-                    <span class="inventory-item">Azure</span>
-                    <span class="inventory-item">AWS</span>
-                    <span class="inventory-item">Linux</span>
-                </div>
-            </div>
-
-            <div class="inventory-slot">
-                <div class="inventory-category">💾 Databases</div>
+            <div class="inventory-slot fade-in">
+                <div class="inventory-icon">&#128450;</div>
+                <div class="inventory-category">Databases & Tools</div>
                 <div class="inventory-items">
                     <span class="inventory-item">MySQL</span>
-                    <span class="inventory-item">PostgreSQL</span>
-                    <span class="inventory-item">MongoDB</span>
-                    <span class="inventory-item">Redis</span>
+                    <span class="inventory-item">JIRA</span>
+                    <span class="inventory-item">Postman</span>
+                    <span class="inventory-item">VS Code</span>
+                    <span class="inventory-item">Pygame</span>
+                    <span class="inventory-item">dlib</span>
+                </div>
+            </div>
+
+            <div class="inventory-slot fade-in">
+                <div class="inventory-icon">&#127891;</div>
+                <div class="inventory-category">Education</div>
+                <div class="inventory-items">
+                    <span class="inventory-item">MS Computer Science - Syracuse University (Dec 2025)</span>
+                    <span class="inventory-item">BE Computer Engineering - K.J. College, Pune</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact">
-        <div class="boss-arena">
-            <h2 class="boss-title">FINAL BOSS: CONNECT</h2>
-            <p class="boss-subtitle">
-                Ready for the next adventure? I'm seeking full-time quests in Software Engineering, QA, and ML Engineering. Let's team up and build something legendary!
-            </p>
-            <div class="boss-email">
-                <a href="mailto:ashutosh0804k@gmail.com">ashutosh0804k@gmail.com</a>
-            </div>
-            <div class="boss-actions">
-                <a href="https://github.com/ashutosh0804k" target="_blank" class="boss-link">GITHUB</a>
-                <a href="https://www.linkedin.com/in/ashutosh-khatavkar/" target="_blank" class="boss-link">LINKEDIN</a>
+    <!-- FINAL BOSS: CONTACT -->
+    <section class="boss-section" id="boss">
+        <div class="fade-in">
+            <div class="boss-title">FINAL BOSS: CONNECT</div>
+            <div class="boss-subtitle">Ready for the next quest. Looking for SDET, QA Automation Engineer, or Software Test Engineer roles. Available for immediate start.</div>
+            <div class="contact-grid">
+                <a href="mailto:ashutosh0804k@gmail.com" class="contact-card">
+                    <div class="contact-card-icon">&#9993;</div>
+                    <div class="contact-card-label">EMAIL</div>
+                    <div class="contact-card-value">ashutosh0804k@gmail.com</div>
+                </a>
+                <a href="https://github.com/ashutosh0804k" target="_blank" class="contact-card">
+                    <div class="contact-card-icon">&#128187;</div>
+                    <div class="contact-card-label">GITHUB</div>
+                    <div class="contact-card-value">ashutosh0804k</div>
+                </a>
+                <a href="https://www.linkedin.com/in/ashutosh-khatavkar-757472193/" target="_blank" class="contact-card">
+                    <div class="contact-card-icon">&#128101;</div>
+                    <div class="contact-card-label">LINKEDIN</div>
+                    <div class="contact-card-value">Ashutosh Khatavkar</div>
+                </a>
+                <a href="https://ashutosh0804k.github.io/" target="_blank" class="contact-card">
+                    <div class="contact-card-icon">&#127760;</div>
+                    <div class="contact-card-label">PORTFOLIO</div>
+                    <div class="contact-card-value">ashutosh0804k.github.io</div>
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
-        <p>© 2026 ASHUTOSH KHATAVKAR | GAME OVER? PRESS START</p>
+        <p>&copy; 2026 Ashutosh Khatavkar. Built with code and caffeine.</p>
     </footer>
 
     <script>
+        // Loading screen
+        setTimeout(() => {
+            document.getElementById('loader').classList.add('hidden');
+        }, 1800);
+
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
-                con
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Navbar on scroll
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            nav.style.background = window.scrollY > 100
+                ? 'rgba(10,14,26,0.98)'
+                : 'linear-gradient(180deg, rgba(10,14,26,0.95), rgba(10,14,26,0.8))';
+        });
+    </script>
+</body>
+</html>
