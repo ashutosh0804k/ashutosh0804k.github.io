@@ -885,12 +885,12 @@
                     <span class="bug-source">Ubisoft &middot; live multiplayer</span>
                     <span class="bug-status">FIXED</span>
                 </div>
-                <div class="bug-title">Sync failures that only showed up on bad networks</div>
+                <div class="bug-title">Sync bugs that only appeared at certain pings</div>
                 <dl>
                     <dt>The bug</dt>
-                    <dd>Peer-to-peer sync failures that players hit intermittently but never reproduced on the office network, so every report was a guessing game.</dd>
-                    <dt>How I caught it</dt>
-                    <dd>Built a Python network simulation tool that injects 50&ndash;300ms latency and 5&ndash;15% packet loss, turning flaky reports into deterministic, repeatable test cases.</dd>
+                    <dd>Peer-to-peer sync issues that happened only at certain ping levels, so they never showed up on a normal office connection.</dd>
+                    <dt>How we caught it</dt>
+                    <dd>We built a Python network simulation tool that induces a chosen ping (50&ndash;300ms latency, plus 5&ndash;15% packet loss), so we could put a test session at the exact conditions where sync broke.</dd>
                     <dt>Result</dt>
                     <dd>Bugs reproduced on demand before they reached players, saving 8+ hours per investigation.</dd>
                 </dl>
