@@ -128,7 +128,7 @@
         }
         .level-badge {
             background: var(--accent);
-            color: #fff;
+            color: #0a0e1a;
             padding: 0.2rem 0.6rem;
             font-size: 0.55rem;
             clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
@@ -420,7 +420,7 @@
             padding: 0.2rem 0.6rem;
             background: rgba(139,92,246,0.15);
             border: 1px solid var(--purple);
-            color: var(--purple);
+            color: #b4a0fb;
             font-size: 0.75rem;
         }
 
@@ -520,9 +520,70 @@
             text-align: center;
             padding: 2rem;
             border-top: 1px solid rgba(255,255,255,0.05);
-            color: #444;
+            color: #9a9a9a;
             font-size: 0.85rem;
         }
+
+        /* Hero terminal: replay of the Selenium framework's test run */
+        .hero { gap: 3rem; }
+        .hero-terminal {
+            flex: 0 0 440px;
+            background: #0b0f17;
+            border: 1px solid rgba(0,255,136,0.35);
+            box-shadow: 0 0 30px rgba(0,255,136,0.08);
+            font-family: 'Courier New', monospace;
+            font-size: 0.82rem;
+            align-self: center;
+        }
+        .terminal-bar {
+            display: flex; align-items: center; gap: 6px;
+            padding: 0.5rem 0.8rem;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            color: #9a9a9a; font-size: 0.75rem;
+        }
+        .terminal-bar span.dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+        .terminal-bar .title { margin-left: 0.5rem; }
+        .terminal-body { padding: 1rem; min-height: 245px; white-space: pre; overflow-x: auto; line-height: 1.55; color: #c9d1d9; }
+        .terminal-body .prompt { color: var(--secondary); }
+        .terminal-body .pass { color: var(--success); }
+        .terminal-body .rule { color: #8b949e; }
+        .terminal-foot {
+            display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;
+            padding: 0.5rem 0.8rem; border-top: 1px solid rgba(255,255,255,0.08);
+            font-size: 0.75rem; color: #9a9a9a;
+        }
+        .terminal-foot a { color: var(--secondary); text-decoration: none; }
+        .terminal-foot img { height: 18px; vertical-align: middle; }
+        .terminal-replay { background: none; border: 1px solid #555; color: #c9d1d9; font-size: 0.72rem; padding: 0.15rem 0.5rem; cursor: pointer; }
+        @media (max-width: 1100px) {
+            .hero { flex-direction: column; align-items: flex-start; }
+            .hero-terminal { flex: none; width: 100%; max-width: 560px; }
+        }
+        @media (max-width: 480px) {
+            .terminal-body { font-size: 0.7rem; padding: 0.8rem; }
+        }
+
+        /* Bugs section */
+        .bug-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        .bug-card {
+            background: rgba(10,14,26,0.8);
+            border: 2px solid rgba(255,70,85,0.45);
+            padding: 1.8rem;
+        }
+        .bug-top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 0.8rem; }
+        .bug-source { font-size: 0.8rem; color: var(--secondary); text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
+        a.bug-source:hover { color: var(--primary); }
+        .bug-status { font-size: 0.7rem; padding: 0.2rem 0.6rem; letter-spacing: 1px; color: var(--success); border: 1px solid var(--success); white-space: nowrap; }
+        .bug-status.prevented { color: var(--primary); border-color: var(--primary); }
+        .bug-title { font-size: 1.25rem; font-weight: 700; color: #fff; margin-bottom: 1rem; line-height: 1.3; }
+        .bug-card dl { margin: 0; }
+        .bug-card dt { font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-top: 0.8rem; }
+        .bug-card dd { margin: 0.2rem 0 0; color: #b5b5b5; font-size: 0.95rem; }
+
+        /* Tested-site footer badge */
+        .site-tested { margin-top: 0.6rem; font-size: 0.85rem; color: #9a9a9a; }
+        .site-tested a { color: var(--secondary); text-decoration: underline; }
+        .site-tested img { height: 20px; vertical-align: middle; margin-left: 0.4rem; }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -577,11 +638,13 @@
             <a href="#about">About</a>
             <a href="#experience">Experience</a>
             <a href="#quests">Projects</a>
+            <a href="#bugs">Bugs</a>
             <a href="#inventory">Skills</a>
             <a href="#boss">Contact</a>
         </div>
     </nav>
 
+    <main>
     <!-- Hero -->
     <section class="hero" id="about">
         <div class="hero-content">
@@ -616,6 +679,17 @@
                 </div>
             </div>
         </div>
+        <aside class="hero-terminal" aria-label="Replay of the test framework's test run">
+            <div class="terminal-bar">
+                <span class="dot" style="background:#ff5f56"></span><span class="dot" style="background:#ffbd2e"></span><span class="dot" style="background:#27c93f"></span>
+                <span class="title">selenium-pytest-framework</span>
+            </div>
+            <div class="terminal-body" id="terminal-body"></div>
+            <div class="terminal-foot">
+                <span>Replay &middot; live CI: <a href="https://github.com/ashutosh0804k/selenium-pytest-framework/actions/workflows/tests.yml" target="_blank" rel="noopener"><img src="https://github.com/ashutosh0804k/selenium-pytest-framework/actions/workflows/tests.yml/badge.svg" alt="CI status"></a></span>
+                <button class="terminal-replay" type="button" id="terminal-replay">&#9654; replay</button>
+            </div>
+        </aside>
     </section>
 
     <!-- CHAPTER 01: EXPERIENCE -->
@@ -799,10 +873,78 @@
         </div>
     </section>
 
-    <!-- CHAPTER 03: INVENTORY (Skills) -->
-    <section id="inventory">
+    <!-- CHAPTER 03: BUGS SQUASHED -->
+    <section id="bugs">
         <div class="section-header fade-in">
             <div class="section-level">CHAPTER 03</div>
+            <div class="section-title">BUGS SQUASHED</div>
+        </div>
+        <div class="bug-grid">
+            <article class="bug-card fade-in">
+                <div class="bug-top">
+                    <span class="bug-source">Ubisoft &middot; live multiplayer</span>
+                    <span class="bug-status">FIXED</span>
+                </div>
+                <div class="bug-title">Sync failures that only showed up on bad networks</div>
+                <dl>
+                    <dt>The bug</dt>
+                    <dd>Peer-to-peer sync failures that players hit intermittently but never reproduced on the office network, so every report was a guessing game.</dd>
+                    <dt>How I caught it</dt>
+                    <dd>Built a Python network simulation tool that injects 50&ndash;300ms latency and 5&ndash;15% packet loss, turning flaky reports into deterministic, repeatable test cases.</dd>
+                    <dt>Result</dt>
+                    <dd>Bugs reproduced on demand before they reached players, saving 8+ hours per investigation.</dd>
+                </dl>
+            </article>
+            <article class="bug-card fade-in">
+                <div class="bug-top">
+                    <a class="bug-source" href="https://github.com/ashutosh0804k/spx-forecast" target="_blank" rel="noopener">spx-forecast &rarr;</a>
+                    <span class="bug-status">FIXED</span>
+                </div>
+                <div class="bug-title">A merge that silently deleted every row after January</div>
+                <dl>
+                    <dt>The bug</dt>
+                    <dd>One input file ended in January 2025, and an inner join quietly dropped all later rows. The April forecast started from January's price and landed about 770 points off.</dd>
+                    <dt>How I caught it</dt>
+                    <dd>Checked the last date of every input after the merge while rebuilding the project, instead of trusting the model's output.</dd>
+                    <dt>Fix</dt>
+                    <dd>Switched to a complete dataset and added tests that fail if the data has gaps or any feature can see the future.</dd>
+                </dl>
+            </article>
+            <article class="bug-card fade-in">
+                <div class="bug-top">
+                    <a class="bug-source" href="https://github.com/ashutosh0804k/selenium-pytest-framework" target="_blank" rel="noopener">selenium-pytest-framework &rarr;</a>
+                    <span class="bug-status">FIXED</span>
+                </div>
+                <div class="bug-title">Tests that passed with a broken API key</div>
+                <dl>
+                    <dt>The bug</dt>
+                    <dd>Two API tests checked only response time and content type. A 401 error is fast and returns JSON, so they passed even when authentication was broken.</dd>
+                    <dt>How I caught it</dt>
+                    <dd>Tested the tests: ran the whole suite with an invalid key and looked for anything still green.</dd>
+                    <dt>Fix</dt>
+                    <dd>Both now require a 200 first. With a bad key, all 18 API tests fail, as they should.</dd>
+                </dl>
+            </article>
+            <article class="bug-card fade-in">
+                <div class="bug-top">
+                    <a class="bug-source" href="https://github.com/ashutosh0804k/selenium-pytest-framework" target="_blank" rel="noopener">selenium-pytest-framework &rarr;</a>
+                    <span class="bug-status prevented">PREVENTED</span>
+                </div>
+                <div class="bug-title">A browser popup that blocks every login</div>
+                <dl>
+                    <dt>The risk</dt>
+                    <dd>Chrome flags Sauce Demo's public password as breached and shows a &ldquo;change your password&rdquo; dialog after login that blocks clicks, a known cause of flaky Selenium runs.</dd>
+                    <dt>Fix</dt>
+                    <dd>Disabled Chrome's password leak detection in the driver setup, so the suite stays green on Chrome and Firefox in CI.</dd>
+                </dl>
+            </article>
+        </div>
+    </section>
+
+    <!-- CHAPTER 04: INVENTORY (Skills) -->
+    <section id="inventory">
+        <div class="section-header fade-in">
+            <div class="section-level">CHAPTER 04</div>
             <div class="section-title">INVENTORY</div>
         </div>
 
@@ -921,8 +1063,12 @@
         </div>
     </section>
 
+    </main>
+
     <footer>
         <p>&copy; 2026 Ashutosh Khatavkar. Built with code and caffeine.</p>
+        <p class="site-tested">This site is tested on every push: broken links, accessibility, mobile layout.
+            <a href="https://github.com/ashutosh0804k/ashutosh0804k.github.io/actions/workflows/site-tests.yml" target="_blank" rel="noopener">See the tests<img src="https://github.com/ashutosh0804k/ashutosh0804k.github.io/actions/workflows/site-tests.yml/badge.svg" alt="Site test status"></a></p>
     </footer>
 
     <script>
@@ -930,6 +1076,63 @@
         setTimeout(() => {
             document.getElementById('loader').classList.add('hidden');
         }, 400);
+
+        // Terminal replay of the framework's test run
+        const TERMINAL_LINES = [
+            ['prompt', '$ pytest'],
+            ['rule', '====== test session starts ======'],
+            ['', 'collected 41 items'],
+            ['', ''],
+            ['file', 'tests/api/test_auth.py', 7],
+            ['file', 'tests/api/test_crud.py', 3],
+            ['file', 'tests/api/test_users.py', 8],
+            ['file', 'tests/ui/test_checkout.py', 5],
+            ['file', 'tests/ui/test_inventory.py', 10],
+            ['file', 'tests/ui/test_login.py', 8],
+            ['', ''],
+            ['pass', '=========== 41 passed ==========='],
+        ];
+        const terminalBody = document.getElementById('terminal-body');
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let terminalRun = 0;
+
+        function terminalLine(kind, text) {
+            const span = document.createElement('span');
+            if (kind === 'prompt' || kind === 'pass' || kind === 'rule') span.className = kind;
+            span.textContent = text;
+            terminalBody.appendChild(span);
+            terminalBody.appendChild(document.createTextNode('\n'));
+            return span;
+        }
+
+        function wait(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function playTerminal() {
+            const run = ++terminalRun;
+            terminalBody.textContent = '';
+            for (const [kind, text, dots] of TERMINAL_LINES) {
+                if (run !== terminalRun) return;
+                if (kind !== 'file') {
+                    terminalLine(kind, text);
+                    if (!reduceMotion) await wait(kind === 'prompt' ? 500 : 180);
+                    continue;
+                }
+                const span = terminalLine('', text + ' ');
+                const passed = document.createElement('span');
+                passed.className = 'pass';
+                span.appendChild(passed);
+                for (let i = 0; i < dots; i++) {
+                    passed.textContent += '.';
+                    if (!reduceMotion) await wait(70);
+                }
+                if (!reduceMotion) await wait(120);
+            }
+        }
+
+        document.getElementById('terminal-replay').addEventListener('click', playTerminal);
+        setTimeout(playTerminal, 500);
 
         // Mobile menu
         const navEl = document.querySelector('nav');
