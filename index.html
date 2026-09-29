@@ -388,6 +388,9 @@
         .quest-body { padding: 1.5rem; }
         .quest-body p { color: #aaa; font-size: 0.95rem; margin-bottom: 1rem; }
         .quest-date { font-size: 0.8rem; color: #666; }
+        .quest-links { display: flex; gap: 1rem; margin-top: 1rem; }
+        .quest-link { color: var(--secondary); font-size: 0.8rem; text-decoration: none; letter-spacing: 1px; text-transform: uppercase; }
+        .quest-link:hover { color: var(--primary); }
         .quest-rewards {
             display: flex; flex-wrap: wrap;
             gap: 0.5rem; margin-top: 1rem;
@@ -558,11 +561,11 @@
                 </div>
                 <div class="stat-box">
                     <div class="stat-value">30%</div>
-                    <div class="stat-label">Bug Reduction</div>
+                    <div class="stat-label">Faster Defect Resolution</div>
                 </div>
                 <div class="stat-box">
                     <div class="stat-value">95%</div>
-                    <div class="stat-label">Test Coverage</div>
+                    <div class="stat-label">Requirements Coverage</div>
                 </div>
                 <div class="stat-box">
                     <div class="stat-value">320+</div>
@@ -592,7 +595,7 @@
             <div class="achievement-company">Ubisoft Entertainment India - AAA gaming studio behind Assassin's Creed and Rainbow Six Siege, serving 100M+ players globally.</div>
             <div class="achievement-description">
                 <ul>
-                    <li>Shipped <strong>4 seasonal updates</strong> for <strong>100K+ concurrent players</strong> by reducing regression testing from <strong>10 to 7 days</strong> through <strong>Python/Selenium/PyTest</strong> automation achieving <strong>95% coverage</strong> across <strong>300+ test cases</strong> tracked in <strong>JIRA</strong> under <strong>Agile</strong>.</li>
+                    <li>Shipped <strong>4 seasonal updates</strong> for <strong>100K+ concurrent players</strong> by reducing regression testing from <strong>10 to 7 days</strong> through <strong>Python/Selenium/PyTest</strong> automation achieving <strong>95% requirements coverage</strong> across <strong>300+ test cases</strong> tracked in <strong>JIRA</strong> under <strong>Agile</strong>.</li>
                     <li>Built custom <strong>Python</strong> network simulation tool that let us reproduce peer-to-peer sync bugs on demand under <strong>50-300ms latency</strong> and <strong>5-15% packet loss</strong>. Caught several critical bugs before they reached players, saving <strong>8+ debugging hours</strong> per issue.</li>
                     <li>Plugged automated <strong>Python/Selenium</strong> suites and <strong>Postman REST API</strong> tests into <strong>Azure DevOps CI/CD</strong> pipelines. Team velocity went up <strong>25%</strong>, deployment time dropped from <strong>8 to 6 days</strong>, and hotfix turnaround improved by <strong>20%</strong>.</li>
                     <li>Wrote <strong>Python</strong> scripts to automate test environment setup, cutting it from <strong>2 hours to 15 minutes</strong> per instance. Freed up <strong>320+ hours quarterly</strong> for the QA team.</li>
@@ -614,8 +617,8 @@
         <!-- Infinite Lives -->
         <div class="achievement-card fade-in">
             <div class="achievement-header">
-                <div class="achievement-title">Developer (Open Source)</div>
-                <div class="achievement-date">2024 - PRESENT</div>
+                <div class="achievement-title">AI/ML Engineer</div>
+                <div class="achievement-date">FEB 2026 - PRESENT</div>
             </div>
             <div class="achievement-company">Preservation Quest / Infinite Lives - Video game preservation nonprofit. Building tools for academic research on games.</div>
             <div class="achievement-description">
@@ -646,6 +649,25 @@
         <div class="quest-grid">
             <div class="quest-card fade-in">
                 <div class="quest-header">
+                    <div class="quest-title">Selenium + PyTest Test Automation Framework</div>
+                    <div class="quest-difficulty legendary">LEGENDARY</div>
+                </div>
+                <div class="quest-body">
+                    <p>41 UI and API tests against Sauce Demo and ReqRes using the Page Object Model, explicit waits, and a reusable API client. Runs in parallel on Chrome and Firefox in GitHub Actions, with HTML reports and a screenshot for every failure.</p>
+                    <div class="quest-date">Sep 2026</div>
+                    <div class="quest-rewards">
+                        <span class="quest-reward">Selenium</span>
+                        <span class="quest-reward">PyTest</span>
+                        <span class="quest-reward">Page Object Model</span>
+                        <span class="quest-reward">REST API</span>
+                        <span class="quest-reward">GitHub Actions</span>
+                    </div>
+                    <div class="quest-links"><a class="quest-link" href="https://github.com/ashutosh0804k/selenium-pytest-framework" target="_blank" rel="noopener">GitHub &rarr;</a></div>
+                </div>
+            </div>
+
+            <div class="quest-card fade-in">
+                <div class="quest-header">
                     <div class="quest-title">Decentralized Task Marketplace</div>
                     <div class="quest-difficulty legendary">LEGENDARY</div>
                 </div>
@@ -659,6 +681,7 @@
                         <span class="quest-reward">MetaMask</span>
                         <span class="quest-reward">IPFS</span>
                     </div>
+                    <div class="quest-links"><a class="quest-link" href="https://task-market-place.netlify.app/" target="_blank" rel="noopener">Live Demo &rarr;</a></div>
                 </div>
             </div>
 
@@ -669,30 +692,33 @@
                 </div>
                 <div class="quest-body">
                     <p>RAG-based platform for querying video game research papers. Rewrote from v1 to production-ready v2.0 with singleton patterns, exponential backoff, and 66% reduction in API calls. Part of a multi-agent knowledge graph architecture.</p>
-                    <div class="quest-date">2024 - Present</div>
+                    <div class="quest-date">Feb 2026 - Present</div>
                     <div class="quest-rewards">
                         <span class="quest-reward">Python</span>
                         <span class="quest-reward">RAG</span>
                         <span class="quest-reward">Anthropic API</span>
                         <span class="quest-reward">Knowledge Graphs</span>
                     </div>
+                    <div class="quest-links"><a class="quest-link" href="https://github.com/PreservationQuest/infinitelives" target="_blank" rel="noopener">GitHub &rarr;</a></div>
                 </div>
             </div>
 
             <div class="quest-card fade-in">
                 <div class="quest-header">
-                    <div class="quest-title">ML Stock Price Predictor</div>
+                    <div class="quest-title">S&amp;P 500 Forecasting Pipeline</div>
                     <div class="quest-difficulty epic">EPIC</div>
                 </div>
                 <div class="quest-body">
-                    <p>Achieved 99.96% R&sup2; with hybrid Ridge Regression + XGBoost model through feature engineering of 14+ variables, integrating Yahoo Finance and FRED APIs.</p>
-                    <div class="quest-date">Jan 2025 - Mar 2025</div>
+                    <p>Leakage-safe pipeline forecasting the S&amp;P 500 1 to 4 days ahead from 22 years of global index data. Gradient Boosting and Ridge were backtested against a naive baseline with significance tests, and 23 PyTest tests prove no feature can see the future. Honest result: no model beats the baseline significantly.</p>
+                    <div class="quest-date">Mar 2025 - May 2025</div>
                     <div class="quest-rewards">
                         <span class="quest-reward">Python</span>
-                        <span class="quest-reward">XGBoost</span>
-                        <span class="quest-reward">PyTorch</span>
-                        <span class="quest-reward">Pandas</span>
+                        <span class="quest-reward">scikit-learn</span>
+                        <span class="quest-reward">Time Series</span>
+                        <span class="quest-reward">PyTest</span>
+                        <span class="quest-reward">GitHub Actions</span>
                     </div>
+                    <div class="quest-links"><a class="quest-link" href="https://github.com/ashutosh0804k/spx-forecast" target="_blank" rel="noopener">GitHub &rarr;</a></div>
                 </div>
             </div>
 
@@ -710,6 +736,7 @@
                         <span class="quest-reward">Pygame</span>
                         <span class="quest-reward">Neural Networks</span>
                     </div>
+                    <div class="quest-links"><a class="quest-link" href="https://github.com/ashutosh0804k/AI-Driven-Snake-Game" target="_blank" rel="noopener">GitHub &rarr;</a></div>
                 </div>
             </div>
 
@@ -742,6 +769,7 @@
                         <span class="quest-reward">OpenCV</span>
                         <span class="quest-reward">Computer Vision</span>
                     </div>
+                    <div class="quest-links"><a class="quest-link" href="https://github.com/ashutosh0804k/Motion-Detection-and-Multiple-Face-Recognition" target="_blank" rel="noopener">GitHub &rarr;</a></div>
                 </div>
             </div>
         </div>
@@ -796,6 +824,7 @@
                     <span class="inventory-item">ReactJS</span>
                     <span class="inventory-item">Node.js</span>
                     <span class="inventory-item">Azure DevOps</span>
+                    <span class="inventory-item">GitHub Actions</span>
                     <span class="inventory-item">Jenkins</span>
                     <span class="inventory-item">Docker</span>
                     <span class="inventory-item">Git</span>
@@ -806,13 +835,11 @@
                 <div class="inventory-icon">&#129504;</div>
                 <div class="inventory-category">ML & Data</div>
                 <div class="inventory-items">
-                    <span class="inventory-item">PyTorch</span>
-                    <span class="inventory-item">TensorFlow</span>
                     <span class="inventory-item">scikit-learn</span>
                     <span class="inventory-item">Pandas</span>
                     <span class="inventory-item">NumPy</span>
-                    <span class="inventory-item">XGBoost</span>
                     <span class="inventory-item">OpenCV</span>
+                    <span class="inventory-item">RAG / LLM Evaluation</span>
                 </div>
             </div>
 
