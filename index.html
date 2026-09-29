@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ashutosh Khatavkar | Player Profile</title>
+    <title>Ashutosh Khatavkar | SDET &amp; QA Automation Engineer</title>
+    <meta name="description" content="SDET and QA automation engineer. Selenium, PyTest, API testing, and CI/CD. Previously Ubisoft, now testing LLM systems. M.S. Computer Science, Syracuse University.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ashutosh0804k.github.io/">
+    <meta property="og:title" content="Ashutosh Khatavkar | SDET &amp; QA Automation Engineer">
+    <meta property="og:description" content="Test automation that catches real bugs. Previously Ubisoft, now testing LLM systems.">
+    <meta property="og:image" content="https://ashutosh0804k.github.io/assets/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -80,7 +87,7 @@
         .loading-bar-fill {
             height: 100%;
             background: var(--primary);
-            animation: load-fill 1.5s ease-out forwards;
+            animation: load-fill 0.35s ease-out forwards;
         }
         @keyframes load-fill { 0% { width: 0; } 100% { width: 100%; } }
         @keyframes blink { 50% { opacity: 0; } }
@@ -127,6 +134,12 @@
             clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
         }
         .nav-links { display: flex; gap: 2rem; }
+        .menu-toggle {
+            display: none;
+            background: none; border: 1px solid var(--primary);
+            color: var(--primary); font-size: 1.2rem;
+            padding: 0.3rem 0.7rem; cursor: pointer;
+        }
         .nav-links a {
             color: #aaa;
             text-decoration: none;
@@ -157,7 +170,7 @@
             max-width: 1400px;
             margin: 0 auto;
         }
-        .hero-content { max-width: 800px; }
+        .hero-content { max-width: 1000px; }
         .hero-label {
             font-family: 'Press Start 2P', cursive;
             font-size: 0.7rem;
@@ -181,6 +194,7 @@
             margin-bottom: 0.5rem;
         }
         .hero h1 .highlight { color: var(--primary); }
+        .hero-role { color: #fff; }
         .hero-description {
             font-size: 1.2rem;
             max-width: 700px;
@@ -188,8 +202,9 @@
             color: #aaa;
         }
         .hero-stats {
-            display: flex; gap: 3rem;
-            margin-top: 3rem; flex-wrap: wrap;
+            display: grid; grid-template-columns: repeat(4, auto);
+            justify-content: start; gap: 2.5rem;
+            margin-top: 3rem;
         }
         .stat-box { text-align: center; }
         .stat-value {
@@ -199,14 +214,14 @@
         }
         .stat-label {
             font-size: 0.85rem;
-            color: #666;
+            color: #9a9a9a;
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-top: 0.3rem;
         }
         .action-buttons {
-            display: flex; gap: 1.5rem;
-            margin-top: 3rem; flex-wrap: wrap;
+            display: flex; gap: 1rem;
+            margin-top: 1rem; flex-wrap: wrap;
         }
         .game-btn {
             padding: 1.2rem 3rem;
@@ -385,9 +400,15 @@
         .quest-difficulty.legendary { color: var(--primary); border: 1px solid var(--primary); }
         .quest-difficulty.epic { color: var(--purple); border: 1px solid var(--purple); }
         .quest-difficulty.rare { color: var(--secondary); border: 1px solid var(--secondary); }
+        .quest-difficulty.testing { color: var(--success); border: 1px solid var(--success); }
+        .quest-difficulty.ml { color: var(--purple); border: 1px solid var(--purple); }
+        .quest-difficulty.game { color: var(--secondary); border: 1px solid var(--secondary); }
+        .quest-difficulty.web3 { color: var(--accent); border: 1px solid var(--accent); }
+        .quest-links img { height: 20px; vertical-align: middle; }
+        .quest-figure { width: 100%; margin: 0.5rem 0 1rem; border: 1px solid rgba(255,255,255,0.1); }
         .quest-body { padding: 1.5rem; }
         .quest-body p { color: #aaa; font-size: 0.95rem; margin-bottom: 1rem; }
-        .quest-date { font-size: 0.8rem; color: #666; }
+        .quest-date { font-size: 0.8rem; color: #9a9a9a; }
         .quest-links { display: flex; gap: 1rem; margin-top: 1rem; }
         .quest-link { color: var(--secondary); font-size: 0.8rem; text-decoration: none; letter-spacing: 1px; text-transform: uppercase; }
         .quest-link:hover { color: var(--primary); }
@@ -505,12 +526,28 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+            .hero { min-height: auto; padding-top: 7rem; }
             .hero h1 { font-size: 2.5rem; }
-            .nav-links { display: none; }
-            .hero-stats { gap: 1.5rem; }
+            .hero-description { font-size: 1.05rem; margin: 1.2rem 0; }
+            .menu-toggle { display: block; }
+            .nav-links {
+                display: none;
+                position: absolute; top: 100%; left: 0; right: 0;
+                flex-direction: column; gap: 0;
+                background: rgba(10,14,26,0.98);
+                border-bottom: 2px solid rgba(255,215,0,0.3);
+            }
+            nav.open .nav-links { display: flex; }
+            .nav-links a { padding: 1rem 2rem; }
+            .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+            .stat-value { font-size: 1.1rem; }
+            .stat-label { font-size: 0.7rem; letter-spacing: 1px; }
             .quest-grid { grid-template-columns: 1fr; }
             .inventory-grid { grid-template-columns: 1fr; }
-            .game-btn { padding: 1rem 2rem; font-size: 0.9rem; }
+            .game-btn { padding: 0.8rem 1.2rem; font-size: 0.85rem; text-align: center; }
+            .action-buttons { gap: 0.7rem; }
+            .action-buttons .game-btn { flex: 1 1 40%; }
+            .action-buttons .game-btn:first-child { flex-basis: 100%; }
         }
     </style>
 </head>
@@ -535,6 +572,7 @@
         <div class="player-tag">
             PLAYER_AK <span class="level-badge">LVL 25</span>
         </div>
+        <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
         <div class="nav-links">
             <a href="#about">About</a>
             <a href="#experience">Experience</a>
@@ -552,12 +590,17 @@
             </div>
             <h1>ASHUTOSH<br><span class="highlight">KHATAVKAR</span></h1>
             <p class="hero-description">
-                Class: SDET & QA Automation Engineer | Guild: Syracuse University (MS CS) | Previous Quest: Ubisoft Entertainment India (Sep 2019 - Mar 2021) | Active Quest: Infinite Lives / Preservation Quest | Specializations: Test Automation, Python, CI/CD, API Testing
+                <strong class="hero-role">SDET &amp; QA Automation Engineer.</strong> I build test automation that catches real bugs. Previously shipped four seasonal updates at Ubisoft for 100K+ concurrent players. Now building and testing LLM systems at Infinite Lives. M.S. Computer Science, Syracuse University.
             </p>
+            <div class="action-buttons">
+                <a href="Ashutosh_Khatavkar_Resume.pdf" download class="game-btn">Download Resume</a>
+                <a href="https://github.com/ashutosh0804k" target="_blank" rel="noopener" class="game-btn game-btn-secondary">View GitHub</a>
+                <a href="mailto:ashutosh0804k@gmail.com" class="game-btn game-btn-secondary">Email Me</a>
+            </div>
             <div class="hero-stats">
                 <div class="stat-box">
-                    <div class="stat-value">1.5+</div>
-                    <div class="stat-label">Years at Ubisoft</div>
+                    <div class="stat-value">100K+</div>
+                    <div class="stat-label">Concurrent Players</div>
                 </div>
                 <div class="stat-box">
                     <div class="stat-value">30%</div>
@@ -571,10 +614,6 @@
                     <div class="stat-value">320+</div>
                     <div class="stat-label">Hours Saved/Qtr</div>
                 </div>
-            </div>
-            <div class="action-buttons">
-                <a href="mailto:ashutosh0804k@gmail.com" class="game-btn">Send Message</a>
-                <a href="https://github.com/ashutosh0804k" target="_blank" class="game-btn game-btn-secondary">View GitHub</a>
             </div>
         </div>
     </section>
@@ -650,7 +689,7 @@
             <div class="quest-card fade-in">
                 <div class="quest-header">
                     <div class="quest-title">Selenium + PyTest Test Automation Framework</div>
-                    <div class="quest-difficulty legendary">LEGENDARY</div>
+                    <div class="quest-difficulty testing">TESTING</div>
                 </div>
                 <div class="quest-body">
                     <p>41 UI and API tests against Sauce Demo and ReqRes using the Page Object Model, explicit waits, and a reusable API client. Runs in parallel on Chrome and Firefox in GitHub Actions, with HTML reports and a screenshot for every failure.</p>
@@ -662,14 +701,70 @@
                         <span class="quest-reward">REST API</span>
                         <span class="quest-reward">GitHub Actions</span>
                     </div>
-                    <div class="quest-links"><a class="quest-link" href="https://github.com/ashutosh0804k/selenium-pytest-framework" target="_blank" rel="noopener">GitHub &rarr;</a></div>
+                    <div class="quest-links"><a class="quest-link" href="https://github.com/ashutosh0804k/selenium-pytest-framework" target="_blank" rel="noopener">GitHub &rarr;</a><a href="https://github.com/ashutosh0804k/selenium-pytest-framework/actions/workflows/tests.yml" target="_blank" rel="noopener"><img src="https://github.com/ashutosh0804k/selenium-pytest-framework/actions/workflows/tests.yml/badge.svg" alt="CI status"></a></div>
+                </div>
+            </div>
+
+            <div class="quest-card fade-in">
+                <div class="quest-header">
+                    <div class="quest-title">S&amp;P 500 Forecasting Pipeline</div>
+                    <div class="quest-difficulty ml">ML + TESTING</div>
+                </div>
+                <div class="quest-body">
+                    <p>Leakage-safe pipeline forecasting the S&amp;P 500 1 to 4 days ahead from 22 years of global index data. Gradient Boosting and Ridge were backtested against a naive baseline with significance tests, and 23 PyTest tests prove no feature can see the future. Honest result: no model beats the baseline significantly.</p>
+                    <img class="quest-figure" src="assets/spx-results.png" alt="Bar chart: neither model meaningfully beats the naive baseline at 1 to 4 day horizons" loading="lazy">
+                    <div class="quest-date">Mar 2025 - May 2025</div>
+                    <div class="quest-rewards">
+                        <span class="quest-reward">Python</span>
+                        <span class="quest-reward">scikit-learn</span>
+                        <span class="quest-reward">Time Series</span>
+                        <span class="quest-reward">PyTest</span>
+                        <span class="quest-reward">GitHub Actions</span>
+                    </div>
+                    <div class="quest-links"><a class="quest-link" href="https://github.com/ashutosh0804k/spx-forecast" target="_blank" rel="noopener">GitHub &rarr;</a><a href="https://github.com/ashutosh0804k/spx-forecast/actions/workflows/tests.yml" target="_blank" rel="noopener"><img src="https://github.com/ashutosh0804k/spx-forecast/actions/workflows/tests.yml/badge.svg" alt="CI status"></a></div>
+                </div>
+            </div>
+
+            <div class="quest-card fade-in">
+                <div class="quest-header">
+                    <div class="quest-title">Infinite Lives RAG System</div>
+                    <div class="quest-difficulty ml">AI/ML</div>
+                </div>
+                <div class="quest-body">
+                    <p>RAG-based platform for querying video game research papers. Rewrote from v1 to production-ready v2.0 with singleton patterns, exponential backoff, and 66% reduction in API calls. Part of a multi-agent knowledge graph architecture.</p>
+                    <div class="quest-date">Feb 2026 - Present</div>
+                    <div class="quest-rewards">
+                        <span class="quest-reward">Python</span>
+                        <span class="quest-reward">RAG</span>
+                        <span class="quest-reward">Anthropic API</span>
+                        <span class="quest-reward">Knowledge Graphs</span>
+                    </div>
+                    <div class="quest-links"><a class="quest-link" href="https://github.com/PreservationQuest/infinitelives" target="_blank" rel="noopener">GitHub &rarr;</a></div>
+                </div>
+            </div>
+
+            <div class="quest-card fade-in">
+                <div class="quest-header">
+                    <div class="quest-title">AI Snake Game</div>
+                    <div class="quest-difficulty game">GAME AI</div>
+                </div>
+                <div class="quest-body">
+                    <p>Achieved 95%+ completion rate using neural network trained via genetic algorithms across 300 agents over 30 generations, implementing 4 pathfinding algorithms (BFS, DFS, A*, GA) with real-time Pygame visualization.</p>
+                    <div class="quest-date">Jan 2024 - Mar 2024</div>
+                    <div class="quest-rewards">
+                        <span class="quest-reward">Python</span>
+                        <span class="quest-reward">Genetic Algorithms</span>
+                        <span class="quest-reward">Pygame</span>
+                        <span class="quest-reward">Neural Networks</span>
+                    </div>
+                    <div class="quest-links"><a class="quest-link" href="https://github.com/ashutosh0804k/AI-Driven-Snake-Game" target="_blank" rel="noopener">GitHub &rarr;</a></div>
                 </div>
             </div>
 
             <div class="quest-card fade-in">
                 <div class="quest-header">
                     <div class="quest-title">Decentralized Task Marketplace</div>
-                    <div class="quest-difficulty legendary">LEGENDARY</div>
+                    <div class="quest-difficulty web3">WEB3</div>
                 </div>
                 <div class="quest-body">
                     <p>Built trustless freelance marketplace with smart contract escrow and AMM swaps (x*y=k formula, &lt;0.5% slippage) on Ethereum using Solidity, React frontend with MetaMask and IPFS integration.</p>
@@ -687,79 +782,8 @@
 
             <div class="quest-card fade-in">
                 <div class="quest-header">
-                    <div class="quest-title">Infinite Lives RAG System</div>
-                    <div class="quest-difficulty legendary">LEGENDARY</div>
-                </div>
-                <div class="quest-body">
-                    <p>RAG-based platform for querying video game research papers. Rewrote from v1 to production-ready v2.0 with singleton patterns, exponential backoff, and 66% reduction in API calls. Part of a multi-agent knowledge graph architecture.</p>
-                    <div class="quest-date">Feb 2026 - Present</div>
-                    <div class="quest-rewards">
-                        <span class="quest-reward">Python</span>
-                        <span class="quest-reward">RAG</span>
-                        <span class="quest-reward">Anthropic API</span>
-                        <span class="quest-reward">Knowledge Graphs</span>
-                    </div>
-                    <div class="quest-links"><a class="quest-link" href="https://github.com/PreservationQuest/infinitelives" target="_blank" rel="noopener">GitHub &rarr;</a></div>
-                </div>
-            </div>
-
-            <div class="quest-card fade-in">
-                <div class="quest-header">
-                    <div class="quest-title">S&amp;P 500 Forecasting Pipeline</div>
-                    <div class="quest-difficulty epic">EPIC</div>
-                </div>
-                <div class="quest-body">
-                    <p>Leakage-safe pipeline forecasting the S&amp;P 500 1 to 4 days ahead from 22 years of global index data. Gradient Boosting and Ridge were backtested against a naive baseline with significance tests, and 23 PyTest tests prove no feature can see the future. Honest result: no model beats the baseline significantly.</p>
-                    <div class="quest-date">Mar 2025 - May 2025</div>
-                    <div class="quest-rewards">
-                        <span class="quest-reward">Python</span>
-                        <span class="quest-reward">scikit-learn</span>
-                        <span class="quest-reward">Time Series</span>
-                        <span class="quest-reward">PyTest</span>
-                        <span class="quest-reward">GitHub Actions</span>
-                    </div>
-                    <div class="quest-links"><a class="quest-link" href="https://github.com/ashutosh0804k/spx-forecast" target="_blank" rel="noopener">GitHub &rarr;</a></div>
-                </div>
-            </div>
-
-            <div class="quest-card fade-in">
-                <div class="quest-header">
-                    <div class="quest-title">AI Snake Game</div>
-                    <div class="quest-difficulty epic">EPIC</div>
-                </div>
-                <div class="quest-body">
-                    <p>Achieved 95%+ completion rate using neural network trained via genetic algorithms across 300 agents over 30 generations, implementing 4 pathfinding algorithms (BFS, DFS, A*, GA) with real-time Pygame visualization.</p>
-                    <div class="quest-date">Jan 2024 - Mar 2024</div>
-                    <div class="quest-rewards">
-                        <span class="quest-reward">Python</span>
-                        <span class="quest-reward">Genetic Algorithms</span>
-                        <span class="quest-reward">Pygame</span>
-                        <span class="quest-reward">Neural Networks</span>
-                    </div>
-                    <div class="quest-links"><a class="quest-link" href="https://github.com/ashutosh0804k/AI-Driven-Snake-Game" target="_blank" rel="noopener">GitHub &rarr;</a></div>
-                </div>
-            </div>
-
-            <div class="quest-card fade-in">
-                <div class="quest-header">
-                    <div class="quest-title">Gomoku AI</div>
-                    <div class="quest-difficulty rare">RARE</div>
-                </div>
-                <div class="quest-body">
-                    <p>Built a competitive AI for Gomoku using minimax with alpha-beta pruning. Tuned heuristic evaluation function to play well without searching too deep.</p>
-                    <div class="quest-date">2024</div>
-                    <div class="quest-rewards">
-                        <span class="quest-reward">Python</span>
-                        <span class="quest-reward">Minimax</span>
-                        <span class="quest-reward">Game AI</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="quest-card fade-in">
-                <div class="quest-header">
                     <div class="quest-title">Real-Time Facial Recognition</div>
-                    <div class="quest-difficulty epic">EPIC</div>
+                    <div class="quest-difficulty ml">AI/ML</div>
                 </div>
                 <div class="quest-body">
                     <p>Live facial detection and recognition system using webcam feed. Detects faces in real time, matches them against a stored dataset using OpenCV.</p>
@@ -905,7 +929,21 @@
         // Loading screen
         setTimeout(() => {
             document.getElementById('loader').classList.add('hidden');
-        }, 1800);
+        }, 400);
+
+        // Mobile menu
+        const navEl = document.querySelector('nav');
+        const menuToggle = document.querySelector('.menu-toggle');
+        menuToggle.addEventListener('click', () => {
+            const isOpen = navEl.classList.toggle('open');
+            menuToggle.setAttribute('aria-expanded', isOpen);
+        });
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navEl.classList.remove('open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
 
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
