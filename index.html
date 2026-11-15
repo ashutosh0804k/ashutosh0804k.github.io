@@ -193,7 +193,7 @@ h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; line-height: 
 .terminal { background: var(--term-bg); color: var(--term-ink); border: 1px solid var(--term-line); font-family: var(--font-mono); font-size: 0.84rem; }
 .terminal-bar { display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem 0.9rem; border-bottom: 1px solid var(--term-line); color: var(--term-dim); font-size: 0.76rem; }
 .terminal-bar .led { width: 8px; height: 8px; background: var(--term-pass); border-radius: 50%; }
-.terminal-body { padding: 1rem 0.9rem; min-height: calc(18.6em + 2rem); white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.55; }
+.terminal-body { padding: 1rem 0.9rem; min-height: calc(15.5em + 2rem); white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.55; }
 .terminal-body .prompt { color: var(--term-gold); }
 .terminal-body .pass { color: var(--term-pass); }
 .terminal-body .rule { color: var(--term-dim); }
@@ -547,11 +547,11 @@ h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; line-height: 
             <div class="proof-stats">
               <div><strong>41</strong><span>UI and API tests</span></div>
               <div><strong>2</strong><span>browsers in parallel</span></div>
-              <div><strong>18</strong><span>API tests that fail on a bad key</span></div>
+              <div><strong>12</strong><span>API tests that fail on a bad key</span></div>
             </div>
             <ul>
               <li>Login, inventory and checkout flows</li>
-              <li>Auth, CRUD and user endpoints</li>
+              <li>Users CRUD, register and login endpoints</li>
               <li>Screenshot saved on every failure</li>
             </ul>
           </div>
@@ -685,7 +685,7 @@ h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; line-height: 
             <dl class="pbr">
               <div><dt>Symptom</dt><dd>The API suite stayed green even when every request returned 401.</dd></div>
               <div><dt>Cause</dt><dd>Tests checked only response time and content type.</dd></div>
-              <div><dt>Fix</dt><dd>Every test asserts a 200 first. All 18 API tests now fail with a bad key.</dd></div>
+              <div><dt>Fix</dt><dd>Every test asserts a 200 first. All 12 API tests now fail with a bad key.</dd></div>
             </dl>
           </div>
         </article>
@@ -791,12 +791,10 @@ const TERMINAL_LINES = [
   ['rule', '====== test session starts ======'],
   ['', 'collected 41 items'],
   ['', ''],
-  ['file', 'tests/api/test_auth.py', 7],
-  ['file', 'tests/api/test_crud.py', 3],
-  ['file', 'tests/api/test_users.py', 8],
-  ['file', 'tests/ui/test_checkout.py', 5],
-  ['file', 'tests/ui/test_inventory.py', 10],
-  ['file', 'tests/ui/test_login.py', 8],
+  ['file', 'tests/api/test_users.py', 12],
+  ['file', 'tests/ui/test_cart_checkout.py', 11],
+  ['file', 'tests/ui/test_inventory.py', 7],
+  ['file', 'tests/ui/test_login.py', 11],
   ['', ''],
   ['pass', '=========== 41 passed ===========']
 ];
